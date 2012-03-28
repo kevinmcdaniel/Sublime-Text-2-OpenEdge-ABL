@@ -1,0 +1,141 @@
+{ "name": "Progress ABL",
+  "scopeName": "source.abl", 
+  "fileTypes": ["p", "i"], 
+  "patterns": [
+
+    {
+      "name": "comment.block.source.abl",
+      "begin": "/\\*",
+      "end": "\\*/(?![^/]*?\\*/)"
+    },
+
+    {
+      "comment": "Single quoted string",
+      "match": "('(?:'|.)*?')",
+      "name": "string.single.source.abl"
+    },
+
+    {
+      "name": "string.double.source.abl",
+      "match": "\"\"[a-zA-Z0-9_\\.\\-]+\"\""
+    },
+
+    {
+      "name": "string.double.complex.abl",
+      "begin": "(\"(?!\"[a-zA-Z]+)|\"\"[a-zA-Z]+)",
+      "end": "\"(?!\")",
+      "patterns": [
+        {
+          "name": "constant.character.escape.abl",
+          "match": "(~(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)|\"\")"
+        }
+      ]
+    },
+
+    {
+      "name": "constant.numeric.source.abl",
+      "match": "(?<!\\w)((0(x|X)[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))"
+    },
+
+    {
+      "name": "constant.language.source.abl",
+      "match": "(?i)\\b(true|false|yes|no(?!-))\\b"
+    },
+
+
+    {
+      "name": "keyword.operator.source.abl",
+      "match": "(?i)(\\b(or|and|not|is)\\b|(=|\\+| - |/|<|>|,))"
+    },
+
+    {
+      "name": "keyword.option.source.abl",
+      "match": "(?i)(\\b(no-undo|no-box|no-labels|no-lock|no-error|format|colon|label|initial|side-labels|width|primary|use-index)\\b|@)"
+    },
+
+    {
+      "name": "keyword.statement.source.abl",
+      "match": "(?i)\\b(display|delete|create|update|assign|import( unformatted)?|input\\s+(from|close)|with|skip)\\b"
+    },
+
+    {
+      "name": "keyword.type.source.abl",
+      "match": "(?i)\\b(as|for(?!\\s+(each|first|last)))\\b"
+    },
+
+    {
+      "match": "(?i)\\b(like)\\s+([a-zA-Z0-9_\\.-]+)",
+      "captures": {
+        "1": { "name": "keyword.type.source.abl" },
+        "2": { "name": "storage.type.source.abl" }
+      }
+    },
+
+    {
+      "name": "keyword.control.source.abl",
+      "match": "(?i)(\\b(if|available|down|where|else( if)?|for\\s+(each|first|last)|do while|repeat(\\s+while)?|find( first|last)?|then( do( transaction)?)?|next|page|quit)\\b|(?<!-)(\\bend\\b(?!\\s+procedure)))"
+    },
+
+
+
+    {
+      "name": "storage.type.define.abl",
+      "match": "(?i)\\b(define\\s+(((new\\s+)?shared\\s+)?(variable|stream|buffer)|((input|input-output|output)\\s+parameter)|temp-table|query)|form)\\b"
+    },
+
+    {
+      "name": "storage.type.source.abl",
+      "match": "(?i)\\b(?<!&)(character|(?<!-)handle|dataset-handle|dataset|field|(?<!-)index|logical|integer|stream|frame [a-z]+)(?!\\s*\\()\\b"
+    },
+
+    {
+      "name": "storage.type.function.abl",
+      "match": "(?i)(end (procedure))"
+    },
+
+    {
+      "name": "support.function.abl",
+      "match": "(?i)(\\b[a-z][a-z0-9_-]*?\\b\\s*)(?=\\s*\\(.*?\\))",
+      "captures": {
+        "1": { "name": "support.function.source.abl" }
+      }
+    },
+
+    {
+      "name": "support.function.abl",
+      "match": "(?i)\\b(run) ([a-z][a-z0-9_-]*?)\\b(\\s*\\(.*?\\))?",
+      "captures": {
+        "1": { "name": "keyword.statement.source.abl" },
+        "2": { "name": "support.function.source.abl" }
+      }
+    },
+
+
+    {
+      "name": "meta.function.source.abl",
+      "captures": {
+        "1": { "name": "storage.type.function.abl" },
+        "2": { "name": "entity.name.function.abl" }
+      },
+      "match": "(?i)(procedure)\\s+([a-z0-9_-]+):"
+    },
+
+    {
+      "name": "meta.function.bracket.abl",
+      "match": "(?i)(\\{[a-z0-9_\\./-]+)",
+      "captures": {
+        "1": { "name": "support.function.source.abl" }
+      }
+    },
+
+    {
+      "name": "meta.function.bracket.abl",
+      "match": "\\}",
+      "captures": {
+        "0": { "name": "support.function.source.abl" }
+      }
+    }
+
+  ],
+  "uuid": "3bcebd60-f6cc-404f-930a-528f32956502"
+}
