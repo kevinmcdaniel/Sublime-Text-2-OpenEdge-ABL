@@ -220,7 +220,7 @@
 			<key>comment</key>
 			<string>procedure</string>
 			<key>match</key>
-			<string>(?i)(procedure)\s+([a-z0-9_-]+)(:|\(|\n)</string>
+			<string>(?i)(procedure)\s+([a-z0-9\/_-]+)(:|\(|\n)</string>
 			<key>name</key>
 			<string>meta.function.source.abl</string>
 		</dict>
@@ -308,7 +308,7 @@
 			<key>comment</key>
 			<string>ends keywords.</string>
 			<key>match</key>
-			<string>(?i)end(\s+(case|constructor|destructor|function|method|procedure))?.</string>
+			<string>(?i)end(\.)?(\s+)?((case|constructor|destructor|function|method|procedure)\.)?</string>
 			<key>name</key>
 			<string>keyword.control.end.source.abl</string>
 		</dict>

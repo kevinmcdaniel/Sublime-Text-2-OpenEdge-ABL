@@ -106,7 +106,7 @@
         "1": { "name": "keyword.control.source.abl" },
         "2": { "name": "entity.name.function.abl" }
       },
-      "match": "(?i)(procedure)\\s+([a-z0-9_-]+)(:|\\(|\\n)"
+      "match": "(?i)(procedure)\\s+([a-z0-9\\/_-]+)(:|\\(|\\n)"
     },
     
     {
@@ -154,7 +154,7 @@
     {
       "comment": "ends keywords.",
       "name": "keyword.control.end.source.abl",
-      "match": "(?i)end(\\s+(case|constructor|destructor|function|method|procedure))?."
+      "match": "(?i)end(\\.)?(\\s+)?((case|constructor|destructor|function|method|procedure)\\.)?"
     },
     
 
