@@ -119,18 +119,6 @@
       "match": "keyword:"
     },
     {
-      "comment": "property",
-      "name": "meta.property.source.abl",
-      "captures": {
-        "2": {"name": "keyword.other.source.abl"},
-        "3": {"name": "keyword.other.property.source.abl"},
-        "4": {"name": "variable.property.abl"},
-        "5": {"name": "constant.other.source.abl"},
-        "6": {"name": "storage.type.source.abl"}
-      },
-      "match": "(?i)define\\s+property\\s+p[A-Z][a-zA-Z0-9]+\\s+as\\s+(character|decimal|integer|int64|logical)"
-    },
-    {
       "comment": "control keywords.",
       "name": "keyword.control.source.abl",
       "match": "(?i)\\b(ambiguous|available|do:?|case|else|exclusive-lock|find\\s+(first|last)?|for\\s+(each|first|last)|if|no-error|no-lock|no-wait|otherwise|repeat|return|then|transaction:?|use-index|when|where|while)\\b"
@@ -153,8 +141,11 @@
     },
     {
       "comment": "ends keywords.",
-      "name": "keyword.control.end.source.abl",
-      "match": "(?i)end(\\.)?(\\s+)?((case|constructor|destructor|function|method|procedure)\\.)?"
+      "match": "(?i)(end)(\\s+(case|class|constructor|destructor|function|method|procedure))?\\.",
+      "captures": {
+        "1": {"name": "keyword.control.end.source.abl"},
+        "2": {"name": "keyword.control.end.source.abl"}
+      }
     },
     
 
@@ -163,8 +154,18 @@
       "match": "storage:"
     },
     {
-      "comment": "getter and setter only",
-      "match": "(?i)((private|protected|public)\\s+)?(get|set)(\\.|\\s)", 
+      "comment": "property",
+      "match": "(?i)(define\\s+property)\\s+(p[A-Z][a-zA-Z0-9]+)\\s+(as)\\s+(character|decimal|integer|int64|logical)",
+      "captures": {
+        "1": {"name": "keyword.other.source.abl"},
+        "2": {"name": "variable.property.abl"},
+        "3": {"name": "constant.other.source.abl"},
+        "4": {"name": "storage.type.source.abl"}
+      }
+    },
+    {
+      "comment": "property getter and setter only",
+      "match": "(?i)((private|protected|public)\\s+)?(get|set)(\\.)", 
       "captures": {
         "2": {"name": "storage.modifier.source.abl"},
         "3": {"name": "keyword.other.property.source.abl"}
