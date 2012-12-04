@@ -1,14 +1,16 @@
 OpenEdge Advanced Business Language (ABL) Syntax for Sublime Text 2
 ===================================================================
 
-This is my first tmLanguage for Sublime Text 2, so this is still a very rough work in progress.
+OpenEdge ABL text highlighting and snippet project.  
 
 License
 =======
 
 All files in this package are licensed under the MIT license.
 
-Copyright (c) 2012 Jeremy Fairbank <elpapapollo@gmail.com>.
+Copyright (c) 2012 Kevin McDaniel <kevin@esquak.com>.
+Original verison by Jeremy Fairbank <elpapapollo@gmail.com>, but not much is left 
+his original version of tmLanguage file.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

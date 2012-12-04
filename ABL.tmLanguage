@@ -1,27 +1,392 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>fileTypes</key>
 	<array>
 		<string>p</string>
 		<string>i</string>
+		<string>cls</string>
 	</array>
 	<key>name</key>
-	<string>Progress ABL</string>
+	<string>OpenEdge ABL</string>
 	<key>patterns</key>
 	<array>
 		<dict>
+			<key>match</key>
+			<string>comment:</string>
+			<key>name</key>
+			<string>comment.testing</string>
+		</dict>
+		<dict>
 			<key>begin</key>
 			<string>/\*</string>
+			<key>comment</key>
+			<string>regular comment block.  todo - require space when compile, if yes then change to not highlight</string>
 			<key>end</key>
-			<string>\*/(?![^/]*?\*/)</string>
+			<string>\*/</string>
 			<key>name</key>
 			<string>comment.block.source.abl</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.source.abl</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>constant:</string>
+			<key>name</key>
+			<string>constant.testing</string>
 		</dict>
 		<dict>
 			<key>comment</key>
-			<string>Single quoted string</string>
+			<string>numbers only - not for hex codes which never show up in ABL</string>
+			<key>match</key>
+			<string>\b\d+\b</string>
+			<key>name</key>
+			<string>constant.numeric.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>html colors</string>
+			<key>match</key>
+			<string>#[0-9a-fA-F]{6}</string>
+			<key>name</key>
+			<string>constant.htmlColors.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>boolean conditions.</string>
+			<key>match</key>
+			<string>(?i)(=|eq|&lt;|lt|&gt;|gt|&lt;=|lteq|&gt;=|gteq|&lt;&gt;)</string>
+			<key>name</key>
+			<string>constant.character.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>math operators.</string>
+			<key>match</key>
+			<string>(|\+|\-|\*|/)</string>
+			<key>name</key>
+			<string>constatn.character.math.operator.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>constants - simple list.  todo - any more to add?</string>
+			<key>match</key>
+			<string>(?i)\b(and|as|false|like|no(?!-)|not|of|or|to|true|yes)\b</string>
+			<key>name</key>
+			<string>constant.language.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>operators.</string>
+			<key>match</key>
+			<string>(?i)\b(and|not|or|to)\b</string>
+			<key>name</key>
+			<string>constant.languange.source.abl</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>entity:</string>
+			<key>name</key>
+			<string>entity.testing</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.hidden.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>constructor/destructor method</string>
+			<key>match</key>
+			<string>(?i)(constructor|destructor)\s+(private|public)\s+([a-z]+)</string>
+			<key>name</key>
+			<string>meta.function.source.abl</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.datatype.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>function</string>
+			<key>match</key>
+			<string>(?i)(function)\s+([a-z0-9_-]+)\s(returns)\s(character|logical|integer|int64)(\s+)?(\(|\n)</string>
+			<key>name</key>
+			<string>meta.function.source.abl</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>main block</string>
+			<key>match</key>
+			<string>(?i)(main(\-)?block):</string>
+			<key>name</key>
+			<string>meta.function.source.abl</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.datatype.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>method</string>
+			<key>match</key>
+			<string>(?i)(method)\s+(private|public)\s+([a-zA-Z]+)\s+([a-zA-Z]+)</string>
+			<key>name</key>
+			<string>meta.function.source.abl</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>procedure</string>
+			<key>match</key>
+			<string>(?i)(procedure)\s+([a-z0-9_-]+)(:|\(|\n)</string>
+			<key>name</key>
+			<string>meta.function.source.abl</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>invalid:</string>
+			<key>name</key>
+			<string>invalid.testing</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>keyword:</string>
+			<key>name</key>
+			<string>keyword.testing</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.property.source.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>property</string>
+			<key>match</key>
+			<string>(?i)define\s+property\s+p[A-Z][a-zA-Z0-9]+\s+as\s+(character|decimal|integer|int64|logical)</string>
+			<key>name</key>
+			<string>meta.property.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>control keywords.</string>
+			<key>match</key>
+			<string>(?i)\b(ambiguous|available|do:?|case|else|exclusive-lock|find\s+(first|last)?|for\s+(each|first|last)|if|no-error|no-lock|no-wait|otherwise|repeat|return|then|transaction:?|use-index|when|where|while)\b</string>
+			<key>name</key>
+			<string>keyword.control.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>frame keywords.</string>
+			<key>match</key>
+			<string>(?i)\b(colon|cols|format|no-box|no-labels|label|initial|side-labels|skip|width|with)\b</string>
+			<key>name</key>
+			<string>keyword.other.frames.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>general keywords.</string>
+			<key>match</key>
+			<string>(?i)\b(assign|can-find(\((first|last))?|create|delete|delimiter|disable|display|enable|export|import|input\s+(from|close)|output\s+(to|thru|through)|put|set|triggers for load of|unformatted|update)\b</string>
+			<key>name</key>
+			<string>keyword.other.statement.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>class keywords.</string>
+			<key>match</key>
+			<string>(?i)\b(class|implements|inherits)\b</string>
+			<key>name</key>
+			<string>keyword.other.class.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>ends keywords.</string>
+			<key>match</key>
+			<string>(?i)end(\s+(case|constructor|destructor|function|method|procedure))?.</string>
+			<key>name</key>
+			<string>keyword.control.end.source.abl</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>storage:</string>
+			<key>name</key>
+			<string>storage.testing</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.source.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.property.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>getter and setter only</string>
+			<key>match</key>
+			<string>(?i)((private|protected|public)\s+)?(get|set)(\.|\s)</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?i)\b(define\s+(((new\s+)?shared\s+)?(variable|stream|buffer)|((input|input-output|output)\s+parameter)|temp-table|query)|form)\b</string>
+			<key>name</key>
+			<string>storage.type.define.abl</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?i)\b(?&lt;!&amp;)(character|(?&lt;!-)handle|dataset-handle|dataset|field|(?&lt;!-)index|logical|integer|stream|frame [a-z]+)(?!\s*\()\b</string>
+			<key>name</key>
+			<string>storage.type.source.abl</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>string:</string>
+			<key>name</key>
+			<string>string.testing</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>support:</string>
+			<key>name</key>
+			<string>support.testing</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>variable:</string>
+			<key>name</key>
+			<string>variable.testing</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>variable &amp; properties - Synergy naming conventions</string>
+			<key>match</key>
+			<string>\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b</string>
+			<key>name</key>
+			<string>variable.other.synergy.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>paramaters - Synergy naming conventions</string>
+			<key>match</key>
+			<string>\b(i|ip|o|op|io)(-|[A-Z])[a-zA-Z0-9_-]+\b</string>
+			<key>name</key>
+			<string>variable.parameter.synergy.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Single quoted string  - use [^(doublequote)
+]*</string>
 			<key>match</key>
 			<string>('(?:'|.)*?')</string>
 			<key>name</key>
@@ -51,42 +416,6 @@
 			</array>
 		</dict>
 		<dict>
-			<key>match</key>
-			<string>(?&lt;!\w)((0(x|X)[0-9a-fA-F]+)|([0-9]+(\.[0-9]+)?))</string>
-			<key>name</key>
-			<string>constant.numeric.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)\b(true|false|yes|no(?!-))\b</string>
-			<key>name</key>
-			<string>constant.language.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)(\b(or|and|not|is)\b|(=|\+| - |/|&lt;|&gt;|,))</string>
-			<key>name</key>
-			<string>keyword.operator.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)(\b(no-undo|no-box|no-labels|no-lock|no-error|format|colon|label|initial|side-labels|width|primary|use-index)\b|@)</string>
-			<key>name</key>
-			<string>keyword.option.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)\b(display|delete|create|update|assign|import( unformatted)?|input\s+(from|close)|with|skip)\b</string>
-			<key>name</key>
-			<string>keyword.statement.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)\b(as|for(?!\s+(each|first|last)))\b</string>
-			<key>name</key>
-			<string>keyword.type.source.abl</string>
-		</dict>
-		<dict>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -102,30 +431,6 @@
 			</dict>
 			<key>match</key>
 			<string>(?i)\b(like)\s+([a-zA-Z0-9_\.-]+)</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)(\b(if|available|down|where|else( if)?|for\s+(each|first|last)|do while|repeat(\s+while)?|find( first|last)?|then( do( transaction)?)?|next|page|quit)\b|(?&lt;!-)(\bend\b(?!\s+procedure)))</string>
-			<key>name</key>
-			<string>keyword.control.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)\b(define\s+(((new\s+)?shared\s+)?(variable|stream|buffer)|((input|input-output|output)\s+parameter)|temp-table|query)|form)\b</string>
-			<key>name</key>
-			<string>storage.type.define.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)\b(?&lt;!&amp;)(character|(?&lt;!-)handle|dataset-handle|dataset|field|(?&lt;!-)index|logical|integer|stream|frame [a-z]+)(?!\s*\()\b</string>
-			<key>name</key>
-			<string>storage.type.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>(?i)(end (procedure))</string>
-			<key>name</key>
-			<string>storage.type.function.abl</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -159,25 +464,6 @@
 			<string>(?i)\b(run) ([a-z][a-z0-9_-]*?)\b(\s*\(.*?\))?</string>
 			<key>name</key>
 			<string>support.function.abl</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.abl</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.abl</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?i)(procedure)\s+([a-z0-9_-]+):</string>
-			<key>name</key>
-			<string>meta.function.source.abl</string>
 		</dict>
 		<dict>
 			<key>captures</key>
