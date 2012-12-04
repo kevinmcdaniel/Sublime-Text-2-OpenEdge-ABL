@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+function ${1:name} returns ${2:datatype} (${3:Arguments})
+  /* ${4:comment?} */
+  /* ${5:code} */
+end function. /* ${1:name at end} */
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>function</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.Progress\ ABL</scope> -->
+</snippet>

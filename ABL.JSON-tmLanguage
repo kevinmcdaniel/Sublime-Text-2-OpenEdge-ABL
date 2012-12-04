@@ -47,7 +47,7 @@
     {
       "comment": "constants - simple list.  todo - any more to add?",
       "name": "constant.language.source.abl",
-      "match": "(?i)\\b(and|as|false|like|no(?!-)|not|of|or|to|true|yes)\\b"
+      "match": "(?i)\\b(and|false|no(?!-)|not|of|or|to|true|yes)\\b"
     },
     {
       "comment": "operators.",
@@ -110,6 +110,11 @@
     },
     
     {
+      "name": "support.type.exception.testing",
+      "match": "exception:"
+    },
+
+    {
       "name": "invalid.testing",
       "match": "invalid:"
     },
@@ -148,7 +153,11 @@
       }
     },
     
-
+    {
+      "name": "punctuation.string.testing",
+      "match": "punctuation:"
+    },
+    
     {
       "name": "storage.testing",
       "match": "storage:"
@@ -172,8 +181,28 @@
       }
     },
     {
+      "comment": "variable",
+      "match": "(?i)(define\\s+((new\\s+)?shared\\s+)?variable)\\s+((lv|sv|v)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+(format)\\s+[a-zA-Z0-9\\.,<>\\(\\)\"\"]+)?(\\s+(initial)\\s+[a-zA-Z0-9_\\.,<>\\(\\)\"\"\\s]+)?(\\s+no-undo)?",
+      "captures": {
+        "1": {"name": "keyword.other.source.abl"},
+        "2": {"name": "keyword.other.source.abl"},
+        "3": {"name": "keyword.other.source.abl"},
+        "4": {"name": "variable.property.abl"},
+        "5": {"name": "variable.property.abl"},
+        "6": {"name": "constant.other.source.abl"},
+        "7": {"name": "storage.type.source.abl"},
+        "8": {"name": "consant.other.source.abl"},
+        "9": {"name": "text.other.source.abl"},
+        "10": {"name": "keyword.other.source.abl"},
+        "11": {"name": "support.regular.text.source.abl"},
+        "12": {"name": "support.keyword.other.source.abl"},
+        "13": {"name": "support.regular.text.source.abl"},
+        "14": {"name": "keyword.other.source.abl"}
+      }
+    },
+    {
       "name": "storage.type.define.abl",
-      "match": "(?i)\\b(define\\s+(((new\\s+)?shared\\s+)?(variable|stream|buffer)|((input|input-output|output)\\s+parameter)|temp-table|query)|form)\\b"
+      "match": "(?i)\\b(define\\s+(((new\\s+)?shared\\s+)?(stream|buffer)|((input|input-output|output)\\s+parameter)|temp-table|query)|form)\\b"
     },
 
     {
@@ -236,14 +265,7 @@
     
 
     
-    {
-      "match": "(?i)\\b(like)\\s+([a-zA-Z0-9_\\.-]+)",
-      "captures": {
-        "1": { "name": "keyword.type.source.abl" },
-        "2": { "name": "storage.type.source.abl" }
-      }
-    },
-
+    
  
 
     {

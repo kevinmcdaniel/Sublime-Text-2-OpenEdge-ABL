@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+procedure ${1:namePlease}: /* ${2:Initials} #${3:ProjectNumber} ${4} */
+  ${5}
+end procedure. /* ${1:namePlease} - ${2:Initials} #${3:ProjectNumber} */
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>procedure</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

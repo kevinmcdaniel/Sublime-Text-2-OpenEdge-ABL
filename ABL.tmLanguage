@@ -81,7 +81,7 @@
 			<key>comment</key>
 			<string>constants - simple list.  todo - any more to add?</string>
 			<key>match</key>
-			<string>(?i)\b(and|as|false|like|no(?!-)|not|of|or|to|true|yes)\b</string>
+			<string>(?i)\b(and|false|no(?!-)|not|of|or|to|true|yes)\b</string>
 			<key>name</key>
 			<string>constant.language.source.abl</string>
 		</dict>
@@ -226,6 +226,12 @@
 		</dict>
 		<dict>
 			<key>match</key>
+			<string>exception:</string>
+			<key>name</key>
+			<string>support.type.exception.testing</string>
+		</dict>
+		<dict>
+			<key>match</key>
 			<string>invalid:</string>
 			<key>name</key>
 			<string>invalid.testing</string>
@@ -289,6 +295,12 @@
 		</dict>
 		<dict>
 			<key>match</key>
+			<string>punctuation:</string>
+			<key>name</key>
+			<string>punctuation.string.testing</string>
+		</dict>
+		<dict>
+			<key>match</key>
 			<string>storage:</string>
 			<key>name</key>
 			<string>storage.testing</string>
@@ -342,8 +354,87 @@
 			<string>(?i)((private|protected|public)\s+)?(get|set)(\.)</string>
 		</dict>
 		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>10</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>11</key>
+				<dict>
+					<key>name</key>
+					<string>support.regular.text.source.abl</string>
+				</dict>
+				<key>12</key>
+				<dict>
+					<key>name</key>
+					<string>support.keyword.other.source.abl</string>
+				</dict>
+				<key>13</key>
+				<dict>
+					<key>name</key>
+					<string>support.regular.text.source.abl</string>
+				</dict>
+				<key>14</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.source.abl</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>consant.other.source.abl</string>
+				</dict>
+				<key>9</key>
+				<dict>
+					<key>name</key>
+					<string>text.other.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>variable</string>
 			<key>match</key>
-			<string>(?i)\b(define\s+(((new\s+)?shared\s+)?(variable|stream|buffer)|((input|input-output|output)\s+parameter)|temp-table|query)|form)\b</string>
+			<string>(?i)(define\s+((new\s+)?shared\s+)?variable)\s+((lv|sv|v)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""\s]+)?(\s+no-undo)?</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(?i)\b(define\s+(((new\s+)?shared\s+)?(stream|buffer)|((input|input-output|output)\s+parameter)|temp-table|query)|form)\b</string>
 			<key>name</key>
 			<string>storage.type.define.abl</string>
 		</dict>
@@ -418,23 +509,6 @@
 					<string>constant.character.escape.abl</string>
 				</dict>
 			</array>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.type.source.abl</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.source.abl</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?i)\b(like)\s+([a-zA-Z0-9_\.-]+)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
