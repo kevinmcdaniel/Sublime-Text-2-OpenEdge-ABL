@@ -3,56 +3,56 @@
   "fileTypes": ["p","i","cls"], 
   "patterns": [
     {
-      "name": "comment.testing",
-      "match": "comment:"
+      "match": "comment:",
+      "name": "comment.testing"
     },
     {
       "comment": "regular comment block.  todo - require space when compile, if yes then change to not highlight",
-      "name": "comment.block.source.abl",
       "begin": "/\\*",
       "end": "\\*/",
+      "name": "comment.block.source.abl",
       "patterns": [
         {
-          "name": "comment.block.source.abl",
           "begin": "/\\*",
-          "end": "\\*/"  
+          "end": "\\*/",  
+          "name": "comment.block.source.abl"
         }
       ]
     },
     
     {
-      "name": "constant.testing",
-      "match": "constant:"
+      "match": "constant:",
+      "name": "constant.testing"
     },
     {
       "comment": "numbers only - not for hex codes which never show up in ABL",
-      "name": "constant.numeric.source.abl",
-      "match": "\\b\\d+\\b"
+      "match": "\\b\\d+\\b",
+      "name": "constant.numeric.source.abl"
     },
     {
       "comment": "html colors",
-      "name": "constant.htmlColors.source.abl",
-      "match": "#[0-9a-fA-F]{6}"
+      "match": "#[0-9a-fA-F]{6}",
+      "name": "constant.htmlColors.source.abl"
     },
     {
       "comment": "boolean conditions.",
-      "name": "constant.character.source.abl",
-      "match": "(?i)(=|eq|<|lt|>|gt|<=|lteq|>=|gteq|<>)"
+      "match": "(?i)\\s(=|eq|<|lt|>|gt|<=|le|>=|ge|<>)\\s",
+      "name": "constant.character.source.abl"
     },
     {
       "comment": "math operators.",
-      "name": "constatn.character.math.operator.source.abl",
-      "match": "(|\\+|\\-|\\*|/)"
+      "match": "(\\+|\\-|\\*|/)",
+      "name": "constant.character.math.operator.source.abl"
     },
     {
       "comment": "constants - simple list.  todo - any more to add?",
-      "name": "constant.language.source.abl",
-      "match": "(?i)\\b(and|false|no(?!-)|not|of|or|to|true|yes)\\b"
+      "match": "(?i)\\b(and|false|no(?!-)|not|of|or|to|true|yes)\\b",
+      "name": "constant.language.source.abl"
     },
     {
       "comment": "operators.",
-      "name": "constant.languange.source.abl",
-      "match": "(?i)\\b(and|not|or|to)\\b"
+      "match": "(?i)\\b(and|not|or|to)\\b",
+      "name": "constant.languange.source.abl"
     },
     
     {
@@ -61,88 +61,87 @@
     },
     {
       "comment": "constructor/destructor method",
+      "match": "(?i)(constructor|destructor)\\s+(private|public)\\s+([a-z]+)",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "entity.name.function.abl" },
         "2": { "name": "storage.modifier.abl" },
         "3": { "name": "entity.name.hidden.abl"}
-              },
-      "match": "(?i)(constructor|destructor)\\s+(private|public)\\s+([a-z]+)"
+              }
     },
     {
       "comment": "function",
+      "match": "(?i)(function)\\s+([a-z0-9_-]+)\\s(returns)\\s(character|logical|integer|int64)(\\s+)?(\\(|\\n)",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "keyword.control.source.abl" },
         "2": { "name": "entity.name.function.abl" },
         "3": { "name": "keyword.other.source.abl" },
         "4": { "name": "storage.type.datatype.abl" }
-      },
-      "match": "(?i)(function)\\s+([a-z0-9_-]+)\\s(returns)\\s(character|logical|integer|int64)(\\s+)?(\\(|\\n)"
+      }
     },
     {
       "comment": "main block",
+      "match": "(?i)(main(\\-)?block):",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "entity.name.function.abl"}
-      },
-      "match": "(?i)(main(\\-)?block):"
+      }
     },
     {
       "comment": "method",
+      "match": "(?i)(method)\\s+(private|public)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "keyword.control.source.abl" },
         "2": { "name": "storage.modifier.abl" },
         "3": { "name": "storage.type.datatype.abl" },
         "4": { "name": "entity.name.function.abl" }
-      },
-      "match": "(?i)(method)\\s+(private|public)\\s+([a-zA-Z]+)\\s+([a-zA-Z]+)"
+      }
     },
     {
       "comment": "procedure",
+      "match": "(?i)(procedure)\\s+([a-z0-9\\/_-]+)(:|\\(|\\n)",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "keyword.control.source.abl" },
         "2": { "name": "entity.name.function.abl" }
-      },
-      "match": "(?i)(procedure)\\s+([a-z0-9\\/_-]+)(:|\\(|\\n)"
+      }
     },
     
     {
-      "name": "support.type.exception.testing",
-      "match": "exception:"
+      "match": "exception:",
+      "name": "support.type.exception.testing"
     },
 
     {
-      "name": "invalid.testing",
-      "match": "invalid:"
+      "match": "invalid:",
+      "name": "invalid.testing"
     },
     
     {
-      "name": "keyword.testing",
-      "match": "keyword:"
+      "match": "keyword:",
+      "name": "keyword.testing"
     },
     {
       "comment": "control keywords.",
-      "name": "keyword.control.source.abl",
-      "match": "(?i)\\b(ambiguous|available|do:?|case|else|exclusive-lock|find\\s+(first|last)?|for\\s+(each|first|last)|if|no-error|no-lock|no-wait|otherwise|repeat|return|then|transaction:?|use-index|when|where|while)\\b"
+      "match": "(?i)\\b(ambiguous|available|do:?|case|else|exclusive-lock|find\\s+(first|last)?|for\\s+(each|first|last)|if|no-error|no-lock|no-wait|otherwise|repeat|return|then|transaction:?|use-index|when|where|while)\\b",
+      "name": "keyword.control.source.abl"
     },
-
     {
       "comment": "frame keywords.",
-      "name": "keyword.other.frames.source.abl",
-      "match": "(?i)\\b(colon|cols|format|no-box|no-labels|label|initial|side-labels|skip|width|with)\\b"
+      "match": "(?i)\\b(colon|cols|format|no-box|no-labels|label|initial|side-labels|skip|width|with)\\b",
+      "name": "keyword.other.frames.source.abl"
     },
     {
       "comment": "general keywords.",
-      "name": "keyword.other.statement.source.abl",
-      "match": "(?i)\\b(assign|can-find(\\((first|last))?|create|delete|delimiter|disable|display|enable|export|import|input\\s+(from|close)|output\\s+(to|thru|through)|put|set|triggers for load of|unformatted|update)\\b"
+      "match": "(?i)\\b(alert-box|assign|can-find(\\((first|last))?|create|delete|delimiter|disable|display|enable|export(\\sdelimiter)?|import(\\sdelimiter)?|input\\s+(from|close)|output\\s+(close|thru|through|to)|message|put(\\sunformatted)?|set|triggers for load of|update|view-as)\\b",
+      "name": "keyword.other.statement.source.abl"
     },
     {
       "comment": "class keywords.",
-      "name": "keyword.other.class.source.abl",
-      "match": "(?i)\\b(class|implements|inherits)\\b"
+      "match": "(?i)\\b(class|implements|inherits)\\b",
+      "name": "keyword.other.class.source.abl"
     },
     {
       "comment": "ends keywords.",
@@ -154,13 +153,13 @@
     },
     
     {
-      "name": "punctuation.string.testing",
-      "match": "punctuation:"
+      "match": "punctuation:",
+      "name": "punctuation.string.testing"
     },
     
     {
-      "name": "storage.testing",
-      "match": "storage:"
+      "match": "storage:",
+      "name": "storage.testing"
     },
     {
       "comment": "buffer",
@@ -171,6 +170,19 @@
         "3": {"name": "variable.property.abl"},
         "4": {"name": "constant.other.source.abl"},
         "5": {"name": "text.other.source.abl"}
+      }
+    },
+    {
+      "comment": "parameters - for functions and methods",
+      "match": "(?i)(input)\\s+((i|ip)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))",
+      "captures": {
+        "1": {"name": "keyword.other.source.abl"},
+        "2": {"name": "variable.property.abl"},
+        "3": {"name": "variable.property.abl"},
+        "4": {"name": "constant.other.source.abl"},
+        "5": {"name": "storage.type.source.abl"},
+        "6": {"name": "constant.other.source.abl"},
+        "7": {"name": "text.other.source.abl"}
       }
     },
     {
@@ -235,52 +247,63 @@
         "14": {"name": "keyword.other.source.abl"}
       }
     },
+
+
     {
-      "name": "storage.type.define.abl",
-      "match": "(?i)\\b(define\\s+(new\\s+)?(shared\\s+)?(temp-table|query|form))\\b"
+      "match": "(?i)\\b(define\\s+(new\\s+)?(shared\\s+)?(temp-table|query|form))\\b",
+      "name": "storage.type.define.abl"
     },
 
     {
-      "name": "storage.type.source.abl",
-      "match": "(?i)\\b(?<!&)(character|(?<!-)handle|dataset-handle|dataset|field|(?<!-)index|logical|integer|stream|frame [a-z]+)(?!\\s*\\()\\b"
+      "match": "(?i)\\b(?<!&)((?<!-)handle|dataset-handle|dataset|field|(?<!-)index|frame [a-z]+)(?!\\s*\\()\\b",
+      "name": "storage.type.source.abl"
     },
 
     {
-      "name": "string.testing",
-      "match": "string:"
+      "match": "string:",
+      "name": "string.testing"
     },
     {
       "comment": "Single quoted string",
       "match": "('(?:'|.)*?')",  
       "name": "string.single.source.abl"
     },
-
     {
       "comment": "Double quoted string",
-      "name": "string.double.source.abl",
-      "match": "\"\"[a-zA-Z0-9_\\.\\-]+\"\""
+      "match": "\"\"[a-zA-Z0-9_\\.\\-\\s]+\"\"",
+      "name": "string.double.source.abl"
     },
 
     {
-      "name": "support.testing",
-      "match": "support:"
+      "match": "support:",
+      "name": "support.testing"
+    },
+    {
+      "comment": "includes",
+      "match": "\\{[a-zA-Z0-9_\\.\\/\\-()\\s]+\\}",
+      "name": "support.other.source.abl"
+    },
+    {
+      "comment": "reprocessors",
+      "match": "\\{&[a-zA-Z0-9_\\.\\/\\-\\s]+\\}",
+      "name": "support.function.source.abl"
     },
 
     {
-      "name": "variable.testing",
-      "match": "variable:"
-    },
-    {
-      "comment": "variable & properties - Synergy naming conventions",
-      "name": "variable.other.synergy.source.abl",
-      "match": "\\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\\b"
+      "match": "variable:",
+      "name": "variable.testing"
     },
     {
       "comment": "paramaters - Synergy naming conventions",
-      "name": "variable.parameter.synergy.source.abl",
-      "match": "\\b(i|ip|o|op|io)(-|[A-Z])[a-zA-Z0-9_-]+\\b"
+      "match": "\\b(i|ip|o|op|io)(-|[A-Z])[a-zA-Z0-9_-]+\\b",
+      "name": "variable.parameter.synergy.source.abl"
     },
-
+    {
+      "comment": "variable & properties - Synergy naming conventions",
+      "match": "\\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\\b",
+      "name": "variable.other.synergy.source.abl"
+    },
+    
  
 
 
@@ -292,8 +315,8 @@
       "end": "\"(?!\")",
       "patterns": [
         {
-          "name": "constant.character.escape.abl",
-          "match": "(~(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)|\"\")"
+          "match": "(~(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)|\"\")",
+          "name": "constant.character.escape.abl"
         }
       ]
     },
@@ -304,40 +327,21 @@
     
  
 
+ 
     {
-      "name": "support.function.abl",
-      "match": "(?i)(\\b[a-z][a-z0-9_-]*?\\b\\s*)(?=\\s*\\(.*?\\))",
-      "captures": {
-        "1": { "name": "support.function.source.abl" }
-      }
-    },
-
-    {
-      "name": "support.function.abl",
       "match": "(?i)\\b(run) ([a-z][a-z0-9_-]*?)\\b(\\s*\\(.*?\\))?",
+      "name": "support.function.abl",
       "captures": {
         "1": { "name": "keyword.statement.source.abl" },
         "2": { "name": "support.function.source.abl" }
       }
-    },
-
-
-
-    {
-      "name": "meta.function.bracket.abl",
-      "match": "(?i)(\\{[a-z0-9_\\./-]+)",
-      "captures": {
-        "1": { "name": "support.function.source.abl" }
-      }
-    },
-
-    {
-      "name": "meta.function.bracket.abl",
-      "match": "\\}",
-      "captures": {
-        "0": { "name": "support.function.source.abl" }
-      }
     }
+
+
+
+    
+    
+    
   ],
   "uuid": "3bcebd60-f6cc-404f-930a-528f32956502"
 }

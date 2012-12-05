@@ -65,7 +65,7 @@
 			<key>comment</key>
 			<string>boolean conditions.</string>
 			<key>match</key>
-			<string>(?i)(=|eq|&lt;|lt|&gt;|gt|&lt;=|lteq|&gt;=|gteq|&lt;&gt;)</string>
+			<string>(?i)\s(=|eq|&lt;|lt|&gt;|gt|&lt;=|le|&gt;=|ge|&lt;&gt;)\s</string>
 			<key>name</key>
 			<string>constant.character.source.abl</string>
 		</dict>
@@ -73,9 +73,9 @@
 			<key>comment</key>
 			<string>math operators.</string>
 			<key>match</key>
-			<string>(|\+|\-|\*|/)</string>
+			<string>(\+|\-|\*|/)</string>
 			<key>name</key>
-			<string>constatn.character.math.operator.source.abl</string>
+			<string>constant.character.math.operator.source.abl</string>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -262,7 +262,7 @@
 			<key>comment</key>
 			<string>general keywords.</string>
 			<key>match</key>
-			<string>(?i)\b(assign|can-find(\((first|last))?|create|delete|delimiter|disable|display|enable|export|import|input\s+(from|close)|output\s+(to|thru|through)|put|set|triggers for load of|unformatted|update)\b</string>
+			<string>(?i)\b(alert-box|assign|can-find(\((first|last))?|create|delete|delimiter|disable|display|enable|export(\sdelimiter)?|import(\sdelimiter)?|input\s+(from|close)|output\s+(close|thru|through|to)|message|put(\sunformatted)?|set|triggers for load of|update|view-as)\b</string>
 			<key>name</key>
 			<string>keyword.other.statement.source.abl</string>
 		</dict>
@@ -338,6 +338,50 @@
 			<string>buffer</string>
 			<key>match</key>
 			<string>(?i)(define\s+buffer)\s+((b|bf)[A-Z][a-zA-Z0-9]+)\s+(for)\s+([a-zA-Z0-9-])+</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.source.abl</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>text.other.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>parameters - for functions and methods</string>
+			<key>match</key>
+			<string>(?i)(input)\s+((i|ip)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -552,7 +596,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(?&lt;!&amp;)(character|(?&lt;!-)handle|dataset-handle|dataset|field|(?&lt;!-)index|logical|integer|stream|frame [a-z]+)(?!\s*\()\b</string>
+			<string>(?i)\b(?&lt;!&amp;)((?&lt;!-)handle|dataset-handle|dataset|field|(?&lt;!-)index|frame [a-z]+)(?!\s*\()\b</string>
 			<key>name</key>
 			<string>storage.type.source.abl</string>
 		</dict>
@@ -563,24 +607,48 @@
 			<string>string.testing</string>
 		</dict>
 		<dict>
+			<key>comment</key>
+			<string>Single quoted string</string>
+			<key>match</key>
+			<string>('(?:'|.)*?')</string>
+			<key>name</key>
+			<string>string.single.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Double quoted string</string>
+			<key>match</key>
+			<string>""[a-zA-Z0-9_\.\-\s]+""</string>
+			<key>name</key>
+			<string>string.double.source.abl</string>
+		</dict>
+		<dict>
 			<key>match</key>
 			<string>support:</string>
 			<key>name</key>
 			<string>support.testing</string>
 		</dict>
 		<dict>
+			<key>comment</key>
+			<string>includes</string>
+			<key>match</key>
+			<string>\{[a-zA-Z0-9_\.\/\-()\s]+\}</string>
+			<key>name</key>
+			<string>support.other.source.abl</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>reprocessors</string>
+			<key>match</key>
+			<string>\{&amp;[a-zA-Z0-9_\.\/\-\s]+\}</string>
+			<key>name</key>
+			<string>support.function.source.abl</string>
+		</dict>
+		<dict>
 			<key>match</key>
 			<string>variable:</string>
 			<key>name</key>
 			<string>variable.testing</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>variable &amp; properties - Synergy naming conventions</string>
-			<key>match</key>
-			<string>\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b</string>
-			<key>name</key>
-			<string>variable.other.synergy.source.abl</string>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -592,18 +660,11 @@
 		</dict>
 		<dict>
 			<key>comment</key>
-			<string>Single quoted string  - use [^(doublequote)
-]*</string>
+			<string>variable &amp; properties - Synergy naming conventions</string>
 			<key>match</key>
-			<string>('(?:'|.)*?')</string>
+			<string>\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b</string>
 			<key>name</key>
-			<string>string.single.source.abl</string>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>""[a-zA-Z0-9_\.\-]+""</string>
-			<key>name</key>
-			<string>string.double.source.abl</string>
+			<string>variable.other.synergy.source.abl</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -628,20 +689,6 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>support.function.source.abl</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?i)(\b[a-z][a-z0-9_-]*?\b\s*)(?=\s*\(.*?\))</string>
-			<key>name</key>
-			<string>support.function.abl</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
 					<string>keyword.statement.source.abl</string>
 				</dict>
 				<key>2</key>
@@ -654,34 +701,6 @@
 			<string>(?i)\b(run) ([a-z][a-z0-9_-]*?)\b(\s*\(.*?\))?</string>
 			<key>name</key>
 			<string>support.function.abl</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>support.function.source.abl</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(?i)(\{[a-z0-9_\./-]+)</string>
-			<key>name</key>
-			<string>meta.function.bracket.abl</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>support.function.source.abl</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>\}</string>
-			<key>name</key>
-			<string>meta.function.bracket.abl</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
