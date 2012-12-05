@@ -321,6 +321,99 @@
 				<key>3</key>
 				<dict>
 					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>text.other.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>buffer</string>
+			<key>match</key>
+			<string>(?i)(define\s+buffer)\s+((b|bf)[A-Z][a-zA-Z0-9]+)\s+(for)\s+([a-zA-Z0-9-])+</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>10</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.source.abl</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>consant.other.source.abl</string>
+				</dict>
+				<key>9</key>
+				<dict>
+					<key>name</key>
+					<string>text.other.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>parameters - for procedures</string>
+			<key>match</key>
+			<string>(?i)(define)\s+(input|input-output|output)\s+(parameter)\s+((i|ip|io|o|op)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+no-undo)?\.</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
 					<string>constant.other.source.abl</string>
 				</dict>
 				<key>4</key>
@@ -349,9 +442,28 @@
 				</dict>
 			</dict>
 			<key>comment</key>
-			<string>property getter and setter only</string>
+			<string>property - getter and setter only</string>
 			<key>match</key>
 			<string>(?i)((private|protected|public)\s+)?(get|set)(\.)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>stream</string>
+			<key>match</key>
+			<string>(?i)(define\s+stream)\s+([a-zA-Z0-9]+)\.</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -364,22 +476,22 @@
 				<key>10</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.source.abl</string>
+					<string>string.double.source.abl</string>
 				</dict>
 				<key>11</key>
 				<dict>
 					<key>name</key>
-					<string>support.regular.text.source.abl</string>
+					<string>keyword.other.source.abl</string>
 				</dict>
 				<key>12</key>
 				<dict>
 					<key>name</key>
-					<string>support.keyword.other.source.abl</string>
+					<string>text.other.source.abl</string>
 				</dict>
 				<key>13</key>
 				<dict>
 					<key>name</key>
-					<string>support.regular.text.source.abl</string>
+					<string>keyword.other.source.abl</string>
 				</dict>
 				<key>14</key>
 				<dict>
@@ -430,11 +542,11 @@
 			<key>comment</key>
 			<string>variable</string>
 			<key>match</key>
-			<string>(?i)(define\s+((new\s+)?shared\s+)?variable)\s+((lv|sv|v)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""\s]+)?(\s+no-undo)?</string>
+			<string>(?i)(define\s+((new\s+)?shared\s+)?variable)\s+((lv|sv|v)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""]+)?(\s+no-undo)?</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(define\s+(((new\s+)?shared\s+)?(stream|buffer)|((input|input-output|output)\s+parameter)|temp-table|query)|form)\b</string>
+			<string>(?i)\b(define\s+(new\s+)?(shared\s+)?(temp-table|query|form))\b</string>
 			<key>name</key>
 			<string>storage.type.define.abl</string>
 		</dict>
