@@ -152,7 +152,7 @@
 			<key>comment</key>
 			<string>function</string>
 			<key>match</key>
-			<string>(?i)(function)\s+([a-z0-9_-]+)\s(returns)\s(character|logical|integer|int64)(\s+)?(\(|\n)</string>
+			<string>(?i)(function)\s+([a-z0-9_-]+)\s(returns)\s(character|date|decimal|logical|integer|int64)(\s+)?(\(|\n)</string>
 			<key>name</key>
 			<string>meta.function.source.abl</string>
 		</dict>
@@ -337,7 +337,7 @@
 			<key>comment</key>
 			<string>buffer</string>
 			<key>match</key>
-			<string>(?i)(define\s+buffer)\s+((b|bf)[A-Z][a-zA-Z0-9]+)\s+(for)\s+([a-zA-Z0-9-])+</string>
+			<string>(?i)(define\s+buffer)\s+((b|bf)[A-Z][a-zA-Z0-9-]+)\s+(for)\s+([a-zA-Z0-9-])+</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -381,7 +381,7 @@
 			<key>comment</key>
 			<string>parameters - for functions and methods</string>
 			<key>match</key>
-			<string>(?i)(input)\s+((i|ip)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))</string>
+			<string>(?i)(input)\s+((i|ip)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|date|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -440,7 +440,7 @@
 			<key>comment</key>
 			<string>parameters - for procedures</string>
 			<key>match</key>
-			<string>(?i)(define)\s+(input|input-output|output)\s+(parameter)\s+((i|ip|io|o|op)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+no-undo)?\.</string>
+			<string>(?i)(define)\s+(input|input-output|output)\s+(parameter)\s+((i|ip|io|o|op)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|date|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+no-undo)?\.</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -469,7 +469,7 @@
 			<key>comment</key>
 			<string>property</string>
 			<key>match</key>
-			<string>(?i)(define\s+property)\s+(p[A-Z][a-zA-Z0-9]+)\s+(as)\s+(character|decimal|integer|int64|logical)</string>
+			<string>(?i)(define\s+property)\s+(p[A-Z][a-zA-Z0-9]+)\s+(as)\s+(character|date|decimal|integer|int64|logical)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -489,6 +489,40 @@
 			<string>property - getter and setter only</string>
 			<key>match</key>
 			<string>(?i)((private|protected|public)\s+)?(get|set)(\.)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.property.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>text.other.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>query</string>
+			<key>match</key>
+			<string>(?i)(define\s+query)\s+((q|bf)[A-Z][a-zA-Z0-9-]+)\s+(for)\s+([a-zA-Z0-9-])+</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -586,11 +620,11 @@
 			<key>comment</key>
 			<string>variable</string>
 			<key>match</key>
-			<string>(?i)(define\s+((new\s+)?shared\s+)?variable)\s+((lv|sv|v)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""]+)?(\s+no-undo)?</string>
+			<string>(?i)(define\s+((new\s+)?shared\s+)?variable)\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\s+(as\s+(character|date|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""]+)?(\s+no-undo)?</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?i)\b(define\s+(new\s+)?(shared\s+)?(temp-table|query|form))\b</string>
+			<string>(?i)\b(define\s+(new\s+)?(shared\s+)?(temp-table|form))\b</string>
 			<key>name</key>
 			<string>storage.type.define.abl</string>
 		</dict>
@@ -703,6 +737,23 @@
 			<string>support.function.abl</string>
 		</dict>
 	</array>
+	<key>repository</key>
+	<dict>
+		<key>progressComment</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.source.abl</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 	<key>scopeName</key>
 	<string>source.abl</string>
 	<key>uuid</key>

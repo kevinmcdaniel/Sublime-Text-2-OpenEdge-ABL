@@ -47,7 +47,8 @@
     {
       "comment": "constants - simple list.  todo - any more to add?",
       "match": "(?i)\\b(and|false|no(?!-)|not|of|or|to|true|yes)\\b",
-      "name": "constant.language.source.abl"
+      "name": "constant.language.source.abl"
+
     },
     {
       "comment": "operators.",
@@ -71,7 +72,7 @@
     },
     {
       "comment": "function",
-      "match": "(?i)(function)\\s+([a-z0-9_-]+)\\s(returns)\\s(character|logical|integer|int64)(\\s+)?(\\(|\\n)",
+      "match": "(?i)(function)\\s+([a-z0-9_-]+)\\s(returns)\\s(character|date|decimal|logical|integer|int64)(\\s+)?(\\(|\\n)",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "keyword.control.source.abl" },
@@ -163,7 +164,7 @@
     },
     {
       "comment": "buffer",
-      "match": "(?i)(define\\s+buffer)\\s+((b|bf)[A-Z][a-zA-Z0-9]+)\\s+(for)\\s+([a-zA-Z0-9-])+",
+      "match": "(?i)(define\\s+buffer)\\s+((b|bf)[A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-])+",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.property.abl"},
@@ -174,7 +175,7 @@
     },
     {
       "comment": "parameters - for functions and methods",
-      "match": "(?i)(input)\\s+((i|ip)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))",
+      "match": "(?i)(input)\\s+((i|ip)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.property.abl"},
@@ -187,7 +188,7 @@
     },
     {
       "comment": "parameters - for procedures",
-      "match": "(?i)(define)\\s+(input|input-output|output)\\s+(parameter)\\s+((i|ip|io|o|op)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+no-undo)?\\.",
+      "match": "(?i)(define)\\s+(input|input-output|output)\\s+(parameter)\\s+((i|ip|io|o|op)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+no-undo)?\\.",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "keyword.other.source.abl"},
@@ -203,7 +204,7 @@
     },
     {
       "comment": "property",
-      "match": "(?i)(define\\s+property)\\s+(p[A-Z][a-zA-Z0-9]+)\\s+(as)\\s+(character|decimal|integer|int64|logical)",
+      "match": "(?i)(define\\s+property)\\s+(p[A-Z][a-zA-Z0-9]+)\\s+(as)\\s+(character|date|decimal|integer|int64|logical)",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.property.abl"},
@@ -220,6 +221,17 @@
       }
     },
     {
+      "comment": "query",
+      "match": "(?i)(define\\s+query)\\s+((q|bf)[A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-])+",
+      "captures": {
+        "1": {"name": "keyword.other.source.abl"},
+        "2": {"name": "variable.property.abl"},
+        "3": {"name": "variable.property.abl"},
+        "4": {"name": "constant.other.source.abl"},
+        "5": {"name": "text.other.source.abl"}
+      }
+    },
+    {
       "comment": "stream",
       "match": "(?i)(define\\s+stream)\\s+([a-zA-Z0-9]+)\\.",
       "captures": {
@@ -229,7 +241,7 @@
     },
     {
       "comment": "variable",
-      "match": "(?i)(define\\s+((new\\s+)?shared\\s+)?variable)\\s+((lv|sv|v)[A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+(format)\\s+[a-zA-Z0-9\\.,<>\\(\\)\"\"]+)?(\\s+(initial)\\s+[a-zA-Z0-9_\\.,<>\\(\\)\"\"]+)?(\\s+no-undo)?",
+      "match": "(?i)(define\\s+((new\\s+)?shared\\s+)?variable)\\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+(format)\\s+[a-zA-Z0-9\\.,<>\\(\\)\"\"]+)?(\\s+(initial)\\s+[a-zA-Z0-9_\\.,<>\\(\\)\"\"]+)?(\\s+no-undo)?",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "keyword.other.source.abl"},
@@ -250,7 +262,7 @@
 
 
     {
-      "match": "(?i)\\b(define\\s+(new\\s+)?(shared\\s+)?(temp-table|query|form))\\b",
+      "match": "(?i)\\b(define\\s+(new\\s+)?(shared\\s+)?(temp-table|form))\\b",
       "name": "storage.type.define.abl"
     },
 
@@ -343,5 +355,17 @@
     
     
   ],
+  "repository": {
+    "progressComment": {
+      "patterns": [
+        {
+          "begin": "/\\*",
+          "end": "\\*/",  
+          "name": "comment.block.source.abl"
+        }
+      ]
+    }
+
+  },
   "uuid": "3bcebd60-f6cc-404f-930a-528f32956502"
 }
