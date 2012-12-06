@@ -1,9 +1,9 @@
 <snippet>
 	<content><![CDATA[
-define parameter input ${1:name} as ${2:datatype},
+define parameter ${1:input} ${2:name} ${3:as} ${4:datatype} ${5:no-undo},
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>input parameter</tabTrigger>
+	<tabTrigger>define parameter</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.Progress\ ABL</scope> -->
 </snippet>
