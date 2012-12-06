@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
 define variable v${1:VarName} as character $2 no-undo.
-$0
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>defvar-char</tabTrigger>
