@@ -164,13 +164,14 @@
     },
     {
       "comment": "buffer",
-      "match": "(?i)(define\\s+buffer)\\s+((b|bf)[A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-])+",
+      "match": "(?i)(define\\s+buffer)\\s+(b|bf)([A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-]+)",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.property.abl"},
         "3": {"name": "variable.property.abl"},
         "4": {"name": "constant.other.source.abl"},
-        "5": {"name": "text.other.source.abl"}
+        "5": {"name": "text.other.source.abl"},
+        "6": {"name": "text.other.source.abl"}
       }
     },
     {
@@ -222,7 +223,7 @@
     },
     {
       "comment": "query",
-      "match": "(?i)(define\\s+query)\\s+((q|bf)[A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-])+",
+      "match": "(?i)(define\\s+query)\\s+((q|qy)[A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-]+)",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.property.abl"},
@@ -241,7 +242,7 @@
     },
     {
       "comment": "variable",
-      "match": "(?i)(define\\s+((new\\s+)?shared\\s+)?variable)\\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+(format)\\s+[a-zA-Z0-9\\.,<>\\(\\)\"\"]+)?(\\s+(initial)\\s+[a-zA-Z0-9_\\.,<>\\(\\)\"\"]+)?(\\s+no-undo)?",
+      "match": "(?i)(define\\s+((new\\s+)?shared\\s+)?variable)\\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+(format)\\s+[a-zA-Z0-9\\.,<>\\(\\)\"\"]+)?(\\s+(initial)\\s+[a-zA-Z0-9_\\.,<>\\(\\)\"\"{}|]+)?(\\s+no-undo)?",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "keyword.other.source.abl"},
