@@ -24,19 +24,11 @@
       "match": "constant:",
       "name": "constant.testing"
     },
-    {
-      "comment": "numbers only - not for hex codes which never show up in ABL",
-      "match": "\\b\\d+\\b",
-      "name": "constant.numeric.source.abl"
-    },
-    {
-      "comment": "html colors",
-      "match": "#[0-9a-fA-F]{6}",
-      "name": "constant.htmlColors.source.abl"
-    },
+    { "include": "#constantHTMLColors" },
+    { "include": "#constantNumbers" },
     {
       "comment": "boolean conditions.",
-      "match": "(?i)\\s(=|eq|<|lt|>|gt|<=|le|>=|ge|<>)\\s",
+      "match": "(?i)\\s(=|eq|<|lt|>|gt|<=|le|>=|ge|<>)",
       "name": "constant.character.source.abl"
     },
     {
@@ -45,15 +37,9 @@
       "name": "constant.character.math.operator.source.abl"
     },
     {
-      "comment": "constants - simple list.  todo - any more to add?",
+      "comment": "constants - operators - simple list. ",
       "match": "(?i)\\b(and|false|no(?!-)|not|of|or|to|true|yes)\\b",
       "name": "constant.language.source.abl"
-
-    },
-    {
-      "comment": "operators.",
-      "match": "(?i)\\b(and|not|or|to)\\b",
-      "name": "constant.languange.source.abl"
     },
     
     {
@@ -242,25 +228,29 @@
     },
     {
       "comment": "variable",
-      "match": "(?i)(define\\s+((new\\s+)?shared\\s+)?variable)\\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))(\\s+(format)\\s+[a-zA-Z0-9\\.,<>\\(\\)\"\"]+)?(\\s+(initial)\\s+[a-zA-Z0-9_\\.,<>\\(\\)\"\"{}|]+)?(\\s+no-undo)?",
-      "captures": {
+      "begin": "(define\\s+)(new\\s+)?(shared\\s+)?(variable)",
+      "beginCaptures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "keyword.other.source.abl"},
         "3": {"name": "keyword.other.source.abl"},
-        "4": {"name": "variable.property.abl"},
-        "5": {"name": "variable.property.abl"},
-        "6": {"name": "constant.other.source.abl"},
-        "7": {"name": "storage.type.source.abl"},
-        "8": {"name": "consant.other.source.abl"},
-        "9": {"name": "text.other.source.abl"},
-        "10": {"name": "string.double.source.abl"},
-        "11": {"name": "keyword.other.source.abl"},
-        "12": {"name": "text.other.source.abl"},
-        "13": {"name": "keyword.other.source.abl"},
-        "14": {"name": "keyword.other.source.abl"}
-      }
+        "4": {"name": "keyword.other.source.abl"}
+      },
+      "patterns": [
+        {
+          "match": "\\b(as|like)\\b",
+          "name": "constant.other.source.abl"
+        },
+        { "include": "#constantHTMLColors" },
+        { "include": "#constantNumbers" },
+        { "include": "#dataTypes" },
+        { "include": "#defineKeywords" },
+        { "include": "#fileField" },
+        { "include": "#quotedStrings" },
+        { "include": "#variableNames" }
+      ],
+      "end": "\\."
     },
-
+    
 
     {
       "match": "(?i)\\b(define\\s+(new\\s+)?(shared\\s+)?(temp-table|form))\\b",
@@ -276,16 +266,7 @@
       "match": "string:",
       "name": "string.testing"
     },
-    {
-      "comment": "Single quoted string",
-      "match": "('(?:'|.)*?')",  
-      "name": "string.single.source.abl"
-    },
-    {
-      "comment": "Double quoted string",
-      "match": "\"\"[a-zA-Z0-9_\\.\\-\\s]+\"\"",
-      "name": "string.double.source.abl"
-    },
+    { "include": "#quotedStrings" },
 
     {
       "match": "support:",
@@ -303,6 +284,12 @@
     },
 
     {
+      "match": "regular text:",
+      "name": "text"
+    },
+    { "include": "#fileField" },
+
+    {
       "match": "variable:",
       "name": "variable.testing"
     },
@@ -311,29 +298,14 @@
       "match": "\\b(i|ip|o|op|io)(-|[A-Z])[a-zA-Z0-9_-]+\\b",
       "name": "variable.parameter.synergy.source.abl"
     },
-    {
-      "comment": "variable & properties - Synergy naming conventions",
-      "match": "\\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\\b",
-      "name": "variable.other.synergy.source.abl"
-    },
-    
+    { "include": "#variableNames" },
+
  
 
 
 
     
-    {
-      "name": "string.double.complex.abl",
-      "begin": "(\"(?!\"[a-zA-Z]+)|\"\"[a-zA-Z]+)",
-      "end": "\"(?!\")",
-      "patterns": [
-        {
-          "match": "(~(x\\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)|\"\")",
-          "name": "constant.character.escape.abl"
-        }
-      ]
-    },
-
+    
     
 
     
@@ -365,8 +337,53 @@
           "name": "comment.block.source.abl"
         }
       ]
+    },
+    "constantNumbers": {
+      "comment": "numbers only - not for hex codes which never show up in ABL",
+      "match": "\\b\\d+\\b",
+      "name": "constant.numeric.source.abl"
+    },
+    "constantHTMLColors": {
+      "comment": "html colors",
+      "match": "#[0-9a-fA-F]{6}",
+      "name": "constant.numeric.source.abl"
+    },
+    "dataTypes": {
+      "comment": "data types - ABL specific",
+      "match": "\\b(character|date|decimal|integer|int64|logical)\\b",
+      "name": "storage.type.source.abl"
+    },
+    "defineKeywords": {
+      "comment": "define statment keywords (others)",
+      "match": "\\b(format|initial|no-undo)\\b",
+      "name": "keyword.other.source.abl"
+    },
+    "fileField": {
+      "comment": "file.field referencesc",
+      "match": "\\b([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+)\\b",
+      "name": "text.other.source.abl"
+    },
+    "quotedStrings": {
+      "comment": "quoted strings",
+      "patterns": [
+        {
+          "comment": "Single quoted string",
+          "match": "('(?:'|.)*?')",  
+          "name": "string.single.source.abl"
+        },
+        {
+          "comment": "Double quoted string",
+          "match": "(\"(?:\"|.)*?\")",
+          "name": "string.double.source.abl"
+        }
+      ]
+    },
+    "variableNames": {
+      "comment": "variable & properties - Synergy naming conventions",
+      "match": "\\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\\b",
+      "name": "variable.other.synergy.source.abl"
     }
-
-  },
+ 
+  },  
   "uuid": "3bcebd60-f6cc-404f-930a-528f32956502"
 }

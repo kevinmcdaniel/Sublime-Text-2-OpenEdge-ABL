@@ -46,26 +46,18 @@
 			<string>constant.testing</string>
 		</dict>
 		<dict>
-			<key>comment</key>
-			<string>numbers only - not for hex codes which never show up in ABL</string>
-			<key>match</key>
-			<string>\b\d+\b</string>
-			<key>name</key>
-			<string>constant.numeric.source.abl</string>
+			<key>include</key>
+			<string>#constantHTMLColors</string>
 		</dict>
 		<dict>
-			<key>comment</key>
-			<string>html colors</string>
-			<key>match</key>
-			<string>#[0-9a-fA-F]{6}</string>
-			<key>name</key>
-			<string>constant.htmlColors.source.abl</string>
+			<key>include</key>
+			<string>#constantNumbers</string>
 		</dict>
 		<dict>
 			<key>comment</key>
 			<string>boolean conditions.</string>
 			<key>match</key>
-			<string>(?i)\s(=|eq|&lt;|lt|&gt;|gt|&lt;=|le|&gt;=|ge|&lt;&gt;)\s</string>
+			<string>(?i)\s(=|eq|&lt;|lt|&gt;|gt|&lt;=|le|&gt;=|ge|&lt;&gt;)</string>
 			<key>name</key>
 			<string>constant.character.source.abl</string>
 		</dict>
@@ -79,19 +71,11 @@
 		</dict>
 		<dict>
 			<key>comment</key>
-			<string>constants - simple list.  todo - any more to add?</string>
+			<string>constants - operators - simple list. </string>
 			<key>match</key>
 			<string>(?i)\b(and|false|no(?!-)|not|of|or|to|true|yes)\b</string>
 			<key>name</key>
 			<string>constant.language.source.abl</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>operators.</string>
-			<key>match</key>
-			<string>(?i)\b(and|not|or|to)\b</string>
-			<key>name</key>
-			<string>constant.languange.source.abl</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -549,6 +533,74 @@
 			<string>(?i)(define\s+stream)\s+([a-zA-Z0-9]+)\.</string>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>(define\s+)(new\s+)?(shared\s+)?(variable)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.source.abl</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>variable</string>
+			<key>end</key>
+			<string>\.</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\b(as|like)\b</string>
+					<key>name</key>
+					<string>constant.other.source.abl</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#constantHTMLColors</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#constantNumbers</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#dataTypes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#defineKeywords</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#fileField</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#quotedStrings</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variableNames</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -625,7 +677,7 @@
 			<key>comment</key>
 			<string>variable</string>
 			<key>match</key>
-			<string>(?i)(define\s+((new\s+)?shared\s+)?variable)\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\s+(as\s+(character|date|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""{}|]+)?(\s+no-undo)?</string>
+			<string>(?i)(define\s+((new\s+)?shared\s+)?vriable)\s+((lv|sv|v|w)[A-Z][a-zA-Z0-9-]+)\s+(as\s+(character|date|decimal|integer|int64|logical)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))(\s+(format)\s+[a-zA-Z0-9\.,&lt;&gt;\(\)""]+)?(\s+(initial)\s+[a-zA-Z0-9_\.,&lt;&gt;\(\)""{}|]+)?(\s+no-undo)?</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -646,20 +698,8 @@
 			<string>string.testing</string>
 		</dict>
 		<dict>
-			<key>comment</key>
-			<string>Single quoted string</string>
-			<key>match</key>
-			<string>('(?:'|.)*?')</string>
-			<key>name</key>
-			<string>string.single.source.abl</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>Double quoted string</string>
-			<key>match</key>
-			<string>""[a-zA-Z0-9_\.\-\s]+""</string>
-			<key>name</key>
-			<string>string.double.source.abl</string>
+			<key>include</key>
+			<string>#quotedStrings</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -685,6 +725,16 @@
 		</dict>
 		<dict>
 			<key>match</key>
+			<string>regular text:</string>
+			<key>name</key>
+			<string>text</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#fileField</string>
+		</dict>
+		<dict>
+			<key>match</key>
 			<string>variable:</string>
 			<key>name</key>
 			<string>variable.testing</string>
@@ -698,29 +748,8 @@
 			<string>variable.parameter.synergy.source.abl</string>
 		</dict>
 		<dict>
-			<key>comment</key>
-			<string>variable &amp; properties - Synergy naming conventions</string>
-			<key>match</key>
-			<string>\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b</string>
-			<key>name</key>
-			<string>variable.other.synergy.source.abl</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>("(?!"[a-zA-Z]+)|""[a-zA-Z]+)</string>
-			<key>end</key>
-			<string>"(?!")</string>
-			<key>name</key>
-			<string>string.double.complex.abl</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>(~(x\h{2}|[0-2][0-7]{,2}|3[0-6][0-7]|37[0-7]?|[4-7][0-7]?|.)|"")</string>
-					<key>name</key>
-					<string>constant.character.escape.abl</string>
-				</dict>
-			</array>
+			<key>include</key>
+			<string>#variableNames</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -744,6 +773,51 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>constantHTMLColors</key>
+		<dict>
+			<key>comment</key>
+			<string>html colors</string>
+			<key>match</key>
+			<string>#[0-9a-fA-F]{6}</string>
+			<key>name</key>
+			<string>constant.numeric.source.abl</string>
+		</dict>
+		<key>constantNumbers</key>
+		<dict>
+			<key>comment</key>
+			<string>numbers only - not for hex codes which never show up in ABL</string>
+			<key>match</key>
+			<string>\b\d+\b</string>
+			<key>name</key>
+			<string>constant.numeric.source.abl</string>
+		</dict>
+		<key>dataTypes</key>
+		<dict>
+			<key>comment</key>
+			<string>data types - ABL specific</string>
+			<key>match</key>
+			<string>\b(character|date|decimal|integer|int64|logical)\b</string>
+			<key>name</key>
+			<string>storage.type.source.abl</string>
+		</dict>
+		<key>defineKeywords</key>
+		<dict>
+			<key>comment</key>
+			<string>define statment keywords (others)</string>
+			<key>match</key>
+			<string>\b(format|initial|no-undo)\b</string>
+			<key>name</key>
+			<string>keyword.other.source.abl</string>
+		</dict>
+		<key>fileField</key>
+		<dict>
+			<key>comment</key>
+			<string>file.field referencesc</string>
+			<key>match</key>
+			<string>\b([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+)\b</string>
+			<key>name</key>
+			<string>text.other.source.abl</string>
+		</dict>
 		<key>progressComment</key>
 		<dict>
 			<key>patterns</key>
@@ -757,6 +831,39 @@
 					<string>comment.block.source.abl</string>
 				</dict>
 			</array>
+		</dict>
+		<key>quotedStrings</key>
+		<dict>
+			<key>comment</key>
+			<string>quoted strings</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>comment</key>
+					<string>Single quoted string</string>
+					<key>match</key>
+					<string>('(?:'|.)*?')</string>
+					<key>name</key>
+					<string>string.single.source.abl</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>Double quoted string</string>
+					<key>match</key>
+					<string>("(?:"|.)*?")</string>
+					<key>name</key>
+					<string>string.double.source.abl</string>
+				</dict>
+			</array>
+		</dict>
+		<key>variableNames</key>
+		<dict>
+			<key>comment</key>
+			<string>variable &amp; properties - Synergy naming conventions</string>
+			<key>match</key>
+			<string>\b(lv|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b</string>
+			<key>name</key>
+			<string>variable.other.synergy.source.abl</string>
 		</dict>
 	</dict>
 	<key>scopeName</key>
