@@ -369,7 +369,7 @@
 			<key>comment</key>
 			<string>Other keywords - E - F</string>
 			<key>match</key>
-			<string>(?i)\b(editing|editor|empty temp-table|enable|encode|entered|entry|etime|exp|export|extent|fill|finally|first-of|first|form)\b</string>
+			<string>(?i)\b(editing|editor|empty temp-table|enable|encode|entered|entry|etime|exp|export|extent|fill|finally|final|first-of|first|form)\b</string>
 			<key>name</key>
 			<string>keyword.other.class.source.abl</string>
 		</dict>
@@ -425,7 +425,7 @@
 			<key>comment</key>
 			<string>Other keywords - U</string>
 			<key>match</key>
-			<string>(?i)\b(use-widget-pool)\b</string>
+			<string>(?i)\b(use-widget-pool|using)\b</string>
 			<key>name</key>
 			<string>keyword.other.class.source.abl</string>
 		</dict>
