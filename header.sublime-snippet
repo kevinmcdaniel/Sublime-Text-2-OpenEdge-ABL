@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+/*----------------------------------------------------------------**
+  File: ${1:com}/${2:programname}.${3:extension}
+  Description: ${4:Meaningful Description Please}
+  Copyright 2013, Synergy55 Inc.  All rights reserved.
+**----------------------------------------------------------------**
+${5:Initals} #${6:Project} ${7:date} - Initial version 
+**----------------------------------------------------------------*/
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>header</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.abl</scope>
+</snippet>
