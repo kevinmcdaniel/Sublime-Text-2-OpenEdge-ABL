@@ -169,7 +169,7 @@
     },
     {
       "comment": "Other keywords - A - B",
-      "match": "(?i)\\b(absolute|alias|ambiguous|apply|asc|assign|at|available|begins|bell|browse|buffer)\\b",
+      "match": "(?i)\\b(absolute|add-interval|alias|ambiguous|apply|asc|assign|at|available|begins|bell|browse|buffer)\\b",
       "name": "keyword.other.class.source.abl"
     },
     {
@@ -194,7 +194,7 @@
     },
     {
       "comment": "Other keywords - H - I",
-      "match": "(?i)\\b(hex-encode|hide|if|then|else|image|implements|import|index|inherits|input\\s+(clear|close|from|through)?|insert|integer|interface|is-attr-space|is-lead-byte)\\b",
+      "match": "(?i)\\b(hex-encode|hide|if|then|else|image|implements|import|index|inherits|input\\s+(clear|close|from|through)?|insert|integer|interface|interval|is-attr-space|is-lead-byte)\\b",
       "name": "keyword.other.class.source.abl"
     },
     {
