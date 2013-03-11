@@ -141,7 +141,7 @@
 			<key>comment</key>
 			<string>function</string>
 			<key>match</key>
-			<string>(?i)(function)\s+([a-z0-9_-]+)\s+(returns)\s+(character|date|decimal|logical|longchar|integer|int64)(\s+)?(\(|\n)</string>
+			<string>(?i)(function)\s+([a-z0-9_-]+)\s+(returns)\s+(character|datetime-tz|datetime|datetime-tz|datetime|date|decimal|logical|longchar|integer|int64)(\s+)?(\(|\n)</string>
 			<key>name</key>
 			<string>meta.function.source.abl</string>
 		</dict>
@@ -361,7 +361,7 @@
 			<key>comment</key>
 			<string>Other keywords - D</string>
 			<key>match</key>
-			<string>(?i)\b(dataservers|date|daydbcodepage|dbcollation|dbname|dbparam|dbrestrictions|dbtaskid|dbtype|dbversion|decimal|delete|delimiter|dictionary|disable|disconnect|display|do|down|dynamic-function|dynamic-new)\b</string>
+			<string>(?i)\b(dataservers|datetime-tz|datetime|date|daydbcodepage|dbcollation|dbname|dbparam|dbrestrictions|dbtaskid|dbtype|dbversion|decimal|delete|delimiter|dictionary|disable|disconnect|display|do|down|dynamic-function|dynamic-new)\b</string>
 			<key>name</key>
 			<string>keyword.other.class.source.abl</string>
 		</dict>
@@ -610,7 +610,7 @@
 			<key>comment</key>
 			<string>parameters - for functions and methods</string>
 			<key>match</key>
-			<string>(?i)(input)\s+(i|ip)([A-Z][a-zA-Z0-9]+)\s+(as\s+(character|date|decimal|integer|int64|logical|longchar)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))</string>
+			<string>(?i)(input)\s+(i|ip)([A-Z][a-zA-Z0-9]+)\s+(as\s+(character|datetime-tz|datetime|date|decimal|integer|int64|logical|longchar)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -974,7 +974,7 @@
 			<key>comment</key>
 			<string>data types - ABL specific</string>
 			<key>match</key>
-			<string>\b(blob|character|clob|date|datetime|datetime-tz|decimal|handle|integer|int64|logical|longchar)\b</string>
+			<string>\b(blob|character|clob|datetime-tz|datetime|datetime-tz|datetime|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar)\b</string>
 			<key>name</key>
 			<string>storage.type.source.abl</string>
 		</dict>

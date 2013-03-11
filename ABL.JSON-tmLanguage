@@ -59,7 +59,7 @@
     },
     {
       "comment": "function",
-      "match": "(?i)(function)\\s+([a-z0-9_-]+)\\s+(returns)\\s+(character|date|decimal|logical|longchar|integer|int64)(\\s+)?(\\(|\\n)",
+      "match": "(?i)(function)\\s+([a-z0-9_-]+)\\s+(returns)\\s+(character|datetime-tz|datetime|datetime-tz|datetime|date|decimal|logical|longchar|integer|int64)(\\s+)?(\\(|\\n)",
       "name": "meta.function.source.abl",
       "captures": {
         "1": { "name": "keyword.control.source.abl" },
@@ -179,7 +179,7 @@
     },
     {
       "comment": "Other keywords - D",
-      "match": "(?i)\\b(dataservers|date|daydbcodepage|dbcollation|dbname|dbparam|dbrestrictions|dbtaskid|dbtype|dbversion|decimal|delete|delimiter|dictionary|disable|disconnect|display|do|down|dynamic-function|dynamic-new)\\b",
+      "match": "(?i)\\b(dataservers|datetime-tz|datetime|date|daydbcodepage|dbcollation|dbname|dbparam|dbrestrictions|dbtaskid|dbtype|dbversion|decimal|delete|delimiter|dictionary|disable|disconnect|display|do|down|dynamic-function|dynamic-new)\\b",
       "name": "keyword.other.class.source.abl"
     },
     {
@@ -302,7 +302,7 @@
     },
     {
       "comment": "parameters - for functions and methods",
-      "match": "(?i)(input)\\s+(i|ip)([A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|date|decimal|integer|int64|logical|longchar)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))",
+      "match": "(?i)(input)\\s+(i|ip)([A-Z][a-zA-Z0-9]+)\\s+(as\\s+(character|datetime-tz|datetime|date|decimal|integer|int64|logical|longchar)|(like)\\s+([a-zA-Z0-9-]+\\.[a-zA-Z0-9_-]+))",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.other.synergy.abl"},
@@ -494,7 +494,7 @@
     },
     "dataTypes": {
       "comment": "data types - ABL specific",
-      "match": "\\b(blob|character|clob|date|datetime|datetime-tz|decimal|handle|integer|int64|logical|longchar)\\b",
+      "match": "\\b(blob|character|clob|datetime-tz|datetime|datetime-tz|datetime|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar)\\b",
       "name": "storage.type.source.abl"
     },
     "defineKeywords": {
