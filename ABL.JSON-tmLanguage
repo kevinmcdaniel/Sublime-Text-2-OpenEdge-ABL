@@ -290,7 +290,7 @@
     },
     {
       "comment": "buffer",
-      "match": "(?i)(define\\s+buffer)\\s+(b|bf)([A-Z][a-zA-Z0-9-]+)\\s+(for)\\s+([a-zA-Z0-9-]+)",
+      "match": "(?i)(define\\s+buffer)\\s+(b|bf)([A-Z][a-zA-Z0-9-_]+)\\s+(for)\\s+([a-zA-Z0-9-]+)",
       "captures": {
         "1": {"name": "keyword.other.source.abl"},
         "2": {"name": "variable.property.abl"},

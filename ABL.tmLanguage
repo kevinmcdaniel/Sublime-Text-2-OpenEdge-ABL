@@ -566,7 +566,7 @@
 			<key>comment</key>
 			<string>buffer</string>
 			<key>match</key>
-			<string>(?i)(define\s+buffer)\s+(b|bf)([A-Z][a-zA-Z0-9-]+)\s+(for)\s+([a-zA-Z0-9-]+)</string>
+			<string>(?i)(define\s+buffer)\s+(b|bf)([A-Z][a-zA-Z0-9-_]+)\s+(for)\s+([a-zA-Z0-9-]+)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
