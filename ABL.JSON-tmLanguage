@@ -1,6 +1,6 @@
-{ "name": "OpenEdge ABL",
-  "scopeName": "source.abl", 
-  "fileTypes": ["p","i","cls"], 
+{ "name": "ABL",
+  "scopeName": "source.abl",
+  "fileTypes": ["p","i","cls"],
   "patterns": [
     {
       "match": "comment:",
@@ -14,12 +14,12 @@
       "patterns": [
         {
           "begin": "/\\*",
-          "end": "\\*/",  
+          "end": "\\*/",
           "name": "comment.block.source.abl"
         }
       ]
     },
-    
+
     {
       "match": "constant:",
       "name": "constant.testing"
@@ -41,7 +41,7 @@
       "match": "(?i)\\b(and|as|false|no(?!-)|not|of|on|or|to|true|yes)\\b",
       "name": "constant.language.source.abl"
     },
-    
+
     {
       "name": "entity.testing",
       "match": "entity:"
@@ -104,7 +104,7 @@
         "2": { "name": "entity.name.function.abl" }
       }
     },
-    
+
     {
       "match": "exception:",
       "name": "support.type.exception.testing"
@@ -114,7 +114,7 @@
       "match": "invalid:",
       "name": "invalid.testing"
     },
-    
+
     {
       "match": "keyword:",
       "name": "keyword.testing"
@@ -278,12 +278,12 @@
       "name": "keyword.other.statement.source.abl"
     },
 
-    
+
     {
       "match": "punctuation:",
       "name": "punctuation.string.testing"
     },
-    
+
     {
       "match": "storage:",
       "name": "storage.testing"
@@ -394,7 +394,7 @@
       ],
       "end": "\\."
     },
-    
+
 
     {
       "match": "(?i)\\b(define\\s+(new\\s+)?(shared\\s+)?(temp-table|form))\\b",
@@ -444,19 +444,19 @@
     },
     { "include": "#variableNames" },
 
- 
 
 
 
-    
-    
-    
 
-    
-    
- 
 
- 
+
+
+
+
+
+
+
+
     {
       "match": "(?i)\\b(run) ([a-z][a-z0-9_-]*?)\\b(\\s*\\(.*?\\))?",
       "name": "support.function.abl",
@@ -468,16 +468,16 @@
 
 
 
-    
-    
-    
+
+
+
   ],
   "repository": {
     "progressComment": {
       "patterns": [
         {
           "begin": "/\\*",
-          "end": "\\*/",  
+          "end": "\\*/",
           "name": "comment.block.source.abl"
         }
       ]
@@ -513,17 +513,17 @@
       "name": "constant.other.source.abl"
     },
     "objectStatus": {
-      "match": "(?i)(private|protected|public)\\s+", 
+      "match": "(?i)(private|protected|public)\\s+",
       "captures": {
         "1": {"name": "storage.modifier.source.abl"}
       }
-    },  
+    },
     "quotedStrings": {
       "comment": "quoted strings",
       "patterns": [
         {
           "comment": "Single quoted string",
-          "match": "('(?:'|.)*?')",  
+          "match": "('(?:'|.)*?')",
           "name": "string.single.source.abl"
         },
         {
@@ -538,7 +538,7 @@
       "match": "\\b(h|i|lv|o|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\\b",
       "name": "variable.other.synergy.source.abl"
     }
- 
-  },  
+
+  },
   "uuid": "3bcebd60-f6cc-404f-930a-528f32956502"
 }
