@@ -163,7 +163,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(?i)(method)\s+(override|private|protected|public)\s+([a-zA-Z0-9.]+)\s+([a-zA-Z]+)</string>
+			<string>(?i)(method)\s+(override|private|protected|public)\s+([a-zA-Z0-9.\-]+)\s+([a-zA-Z]+)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -974,7 +974,7 @@
 			<key>comment</key>
 			<string>data types - ABL specific</string>
 			<key>match</key>
-			<string>\b(blob|character|clob|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar|memptr)\b</string>
+			<string>\b(blob|character|clob|datetime\-tz|datetime|date|decimal|handle|int64|integer|logical|longchar|memptr)\b</string>
 			<key>name</key>
 			<string>storage.type.source.abl</string>
 		</dict>

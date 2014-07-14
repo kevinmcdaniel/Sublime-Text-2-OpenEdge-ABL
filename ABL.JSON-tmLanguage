@@ -78,7 +78,7 @@
     },
     {
       "comment": "method",
-      "begin": "(?i)(method)\\s+(override|private|protected|public)\\s+([a-zA-Z0-9.]+)\\s+([a-zA-Z]+)",
+      "begin": "(?i)(method)\\s+(override|private|protected|public)\\s+([a-zA-Z0-9.\\-]+)\\s+([a-zA-Z]+)",
       "beginCaptures": {
         "1": { "name": "keyword.control.source.abl" },
         "2": { "name": "storage.modifier.abl" },
@@ -494,7 +494,7 @@
     },
     "dataTypes": {
       "comment": "data types - ABL specific",
-      "match": "\\b(blob|character|clob|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar|memptr)\\b",
+      "match": "\\b(blob|character|clob|datetime\\-tz|datetime|date|decimal|handle|int64|integer|logical|longchar|memptr)\\b",
       "name": "storage.type.source.abl"
     },
     "defineKeywords": {
