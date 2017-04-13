@@ -1,0 +1,24 @@
+// SYNTAX TEST "oeAbL.sublime-syntax"
+
+/* this is a /* comment within a comment */ --- **** */ test
+// ^ comment.block.source.abl
+//               ^ source.abl invalid.source.abl
+//                                          ^ comment.block.source.abl
+//                                                        ^ source.abl
+"This is a double quoted comment";
+// ^ string.double.source.abl
+
+'This is a single quoted comment';
+// ^ string.single.source.abl
+
+{pt/std}
+// <- support.function.source.abl
+//   ^ support.function.source.abl
+
+if x > 1 then
+// <- keyword.other.class.source.abl
+//       ^ keyword.source.abl
+#123456
+// <- constant.numeric.source.abl
+#abcdef
+// <- constant.numeric.source.abl

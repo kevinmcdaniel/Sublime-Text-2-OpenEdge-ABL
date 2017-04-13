@@ -1,0 +1,566 @@
+%YAML 1.2
+---
+name: ABL
+file_extensions: [p, i, cls, y]
+scope: source.abl
+
+variables:
+  dataTypes: '(blob|character|clob|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar|memptr|Progress.Lang.Object|void)'
+  modifier:  '(override|private|protected|public)'
+  accessmode: '(?i)\b(private|protected|public|static)\b'
+  sharedmode: '(?i)\b(new|global|shared)\b'
+  ident: '[A-Za-z_][A-Za-z_0-9]*'
+
+contexts:
+  main:
+    - include: code
+    - include: defines
+    - include: mainblock
+    - include: constructor
+    - include: methods
+    - include: classes
+
+
+  classes:
+    - match: \b(class)\b
+      scope: keyword.control.source.abl
+      set: classDefine
+    - match: '(end class)(\.)'
+      captures:
+        1: keyword.control.source.abl
+        2: text.other.source.abl
+
+  classDefine:
+    - match: \b[a-z.]+\b
+      scope: entity.name.function.abl
+      push: classDefine2
+  classDefine2:
+    - match: \b(inherits|implements)\b
+      scope: keyword.control.source.abl
+    - match: \b[a-z\.]+\b
+      scope: variable.other.synergy.source.abl
+    - match: ':'
+      scope:  text.other.source.abl
+      set: main
+
+
+  code:               # summury code include
+    - include: codeIncludes
+    - include: comments
+    - include: constants
+    - include: functionWords
+    - include: keywords
+    - include: namesClasses
+    - include: namesFileField
+    - include: strings
+    - include: namesVariables
+
+  codeIncludes:          # code includes
+    - match: '{&'           # preprocessor
+      push: codeIncludesEnd
+    - match: '{'            # include
+      push: codeIncludesEnd
+  codeIncludesEnd:
+    - meta_scope: support.function.source.abl
+    - include: strings
+    - match: '}'
+      pop: true
+
+  comments:              # code comments - openEdge style
+    - match: //.*$
+      scope: comment.block.source.abl
+    - match: /\*
+      push: commentBlock
+  commentBlock:
+    - meta_scope: comment.block.source.abl
+    - match: /\*
+      set: commentNested
+    - match: \*/
+      pop: true
+  commentNested:
+    - meta_scope: invalid.source.abl
+    - match: \*/
+      set: commentBlock
+
+  constants:
+    # html colors
+    - match: '#[0-9a-fA-F]{6}\s+'
+      scope: constant.numeric.source.abl
+    # numbers only - not for hex codes which never show up in ABL
+    - match: \b\d+\b
+      scope: constant.numeric.source.abl
+    # boolean conditions.
+    - match: (?i)\s(=|eq|<|lt|>|gt|<=|le|>=|ge|<>)\s
+      scope: constant.character.source.abl
+    # simple constants
+    - match: (?i)\b(and|false|(?<!-)no(?!-)|not|of|on|or|to|true|yes)\b
+      scope: constant.language.source.abl
+    # math operators
+    - match: (\+|\-|\*|/)
+      scope: constant.character.math.operator.source.abl
+    #   keyword As & Like:
+
+# not sure about this one...
+    # - match: (\.|:)
+    #   scope: punctuation.string.testing
+
+  constructor:
+    - match: '(constructor|destructor)\s+{{modifier}}*\s*([a-z][a-zA-Z]+)(\(\):)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: entity.name.function.abl
+        3: text.other.source.abl
+      push: constructorDefine
+    - match: '(constructor|destructor)\s+{{modifier}}\s+([a-z][a-zA-Z]+)(\n)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: keyword.control.source.abl
+        3: entity.name.function.abl
+      push: constructorParameters
+  constructorDefine:
+    - include: code
+    - match: '(end )(constructor|destructor)(\.)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: keyword.control.import.source.abl
+        3: text.other.source.abl
+      set: main
+  constructorParameters:
+    - match: '\('
+      scope: text.other.source.abl
+    - include: defineAll
+    - include: code
+    - match: '\):'
+      scope: text.other.source.abl
+      set: constructorDefine
+
+  defines:
+    - match: \bdefine\b
+      scope: keyword.other.source.abl
+    - match: '{{sharedmode}}'
+      scope: keyword.other.source.abl
+    - match: '{{accessmode}}'
+      scope: keyword.other.source.abl
+    - match: \bproperty\b
+      scope: storage.modifier.source.abl
+      push: defineProperty
+    - match: \bvariable\b
+      scope: storage.modifier.source.abl
+      push: defineVariable
+  defineAll:
+    - match: \b(format|initial|init|no-undo)\b
+      scope: keyword.other.source.abl
+    - match: \b(as|like)\b
+      scope: constant.other.source.abl
+    - include: namesClasses
+    - include: namesFileField
+    - include: namesTypes
+    - include: namesVariables
+    - include: strings
+  defineProperty:
+    - include: defineAll
+    - match: '{{accessmode}}'
+      scope: keyword.other.source.abl
+    - match: \b(get)(\(\):)
+      captures:
+        1: keyword.other.source.abl
+        2: text.other.source.abl
+      push: definePropertyGet
+    - match: (\bget)(\.$)
+      captures:
+        1: keyword.other.source.abl
+        2: text.other.source.abl
+    - match: \b(set)(\.$)
+      captures:
+        1: keyword.other.source.abl
+        2: text.other.source.abl
+      set: main
+  definePropertyGet:
+    - include: code
+    - match: \bend get\.$
+      scope: keyword.other.source.abl
+      pop: true
+  defineVariable:
+    - include: defineAll
+    - match: \.$
+      scope: text.other.source.abl
+      pop: true
+      # set: main
+
+  functionWords:       # common component methods
+    - match: (addToList|addToQuery|fetchField|fetchRecord|getInit|initBegin|initBuild|initClass|initEnd|setInit|setMember|updateRecord)
+      scope: text.other.source.abl
+
+  keywords:             # OpenEdge keywords
+    # conditional keywords
+    - match: \b(do|if|then|else|repeat|return)\b
+      # scope: keyword.source.abl
+      scope: keyword.control.import.source.abl
+    - match: \b(case|end case|otherwise|when)\b
+      # scope: keyword.source.abl
+      scope: keyword.control.import.source.abl
+    # Other keywords - A - B
+    - match: (?i)\b(absolute|add-interval|alert-box|alias|ambiguous|apply|asc|assign|at|available|begins|bell|browse|buffer)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - C
+    - match: (?i)\b(call|can-do|can-query|can-set|caps|cast|catch|choose|chr|clear|close|codepage-convert|color|combo-box|compare|compile|save|connect|connected|count-of|create|current-changed|current-language|current-result-row|current-value)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - D
+    - match: (?i)\b(dataservers|datetime-tz|datetime|date|daydbcodepage|dbcollation|dbname|dbparam|dbrestrictions|dbtaskid|dbtype|dbversion|decimal|delete|delimiter|dictionary|disable|disconnect|display|down|dynamic-function|dynamic-new)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - E - F
+    - match: (?i)\b(editing|editor|empty temp-table|enable|encode|entered|entry|error|etime|exp|export|extent|fill|finally|final|first-of|first|form)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - G
+    - match: (?i)\b(gateways|get|get-bits|get-byte|get-byte-order|get-bytes|get-codepages|get-collations|get-double|get-float|get-key-value|get-long|get-pointer-value|get-short|get-size|get-string|get-unsigned-short|go-pending)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - H - I
+    - match: (?i)\b(hex-encode|hide|image|implements|import|index|inherits|input\s+(clear|close|from|through)?|insert|integer|interface|interval|is-attr-space|is-lead-byte)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - K - L
+    - match: (?i)\b(kblabel|keycode|keyfunction|keylable|keyword|keyword-all|last|lastkey|last-of|lc|ldbname|leave|left-trim|length|library|lin-counter|list-(events|query-attrs|set-attrs|widgets)|load|load-picture|locked|log|lookup|lower)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - M - N
+    - match: (?i)\b(matches|maximum|max|md5-digest|member|message|message-lines|minimum|modulo|month|new|next|next-prompt|next-value|num-aliases|num-dbs|num-entries|num-results)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - O
+    - match: (?i)\b(open query|opsys|os-(append|command|copy|create-dir|delete|drives|error|getenv|rename)|object|overlay)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - P
+    - match: (?i)\b(page|page-number|page-size|pause|pdbname|preselect|proc-handle|proc-status|process
+             events|program-name|projpt-for|promsgs|propath|proversion|publsih|put cursor|put
+             screen|put-(bits|bytes|byte|double|float|key-value|long|short|string|unsigned-short))\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - R & S & T
+    - match: \b(routine-level|string|super|transaction|throw)\b
+      scope: keyword.other.class.source.abl
+    # Other keywords - U & v
+    - match: (?i)\b(undo|upper|use-widget-pool|using|valid-object|view-as)\b
+      scope: keyword.other.class.source.abl
+
+  mainblock:
+    - match: '(?i)(main(\-)?block):'
+      scope: entity.name.function.abl
+
+  methods:
+    - match: '(method\s+){{modifier}}\s+{{dataTypes}}\s+([a-z][a-zA-Z]+)(\(\):)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: keyword.control.source.abl
+        3: storage.modifier.abl
+        4: entity.name.function.abl
+        5: text.other.source.abl
+      push: methodsDefine
+    - match: '(method\s+){{modifier}}\s+{{dataTypes}}\s+([a-z][a-zA-Z]+)(\n)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: keyword.control.source.abl
+        3: storage.modifier.abl
+        4: entity.name.function.abl
+      push: methodsParameters
+  methodsDefine:
+    - include: defines
+    - include: code
+    - match: '\b(end method)(\.)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: text.other.source.abl
+      pop: true
+  methodsParameters:
+    - match: '\('
+      scope: text.other.source.abl
+    - include: defineAll
+    - include: code
+    - match: '\):'
+      scope: text.other.source.abl
+      set: methodsDefine
+
+# to be soreted still
+ # methodDefine:
+ #    - match: "\\)\\:"
+ #      scope: text.other.source.abl
+ #      pop: true
+
+
+  namesClasses:
+    - match: \b(com|dao|val)\.([a-z]+\.[a-z]+)\b
+      scope: text.other.source.abl
+  namesFileField:
+    - match: \b([a-zA-Z0-9\-_]+\.[a-zA-Z\-_]+)\b
+      scope: text.other.source.abl
+  namesTypes:
+    - match: \b{{dataTypes}}\b
+      scope: storage.type.source.abl
+  namesVariables:  # variable & properties - Synergy naming conventions
+    - match: \b(h|i|lv|o|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b
+      scope: variable.other.synergy.source.abl
+
+  strings:            # quoted strings
+    - match: '"'
+      scope: text.other.source.abl
+      push: stringDoubleQuote
+    - match: "'"
+      scope: text.other.source.abl
+      push: stringSingleQuote
+  stringDoubleQuote:
+    - meta_content_scope: string.double.source.abl
+    - match: '"'
+      scope: text.other.source.abl
+      pop: true
+  stringSingleQuote:
+    - meta_content_scope: string.single.source.abl
+    - match: "'"
+      scope: text.other.source.abl
+      pop: true
+
+
+
+
+
+# - name: entity.testing
+#   match: 'entity:'
+
+# - comment: constructor/destructor method
+#   scope: meta.function.source.abl
+#   match: (?i)(constructor|destructor)\s+((private|protected|public)\s+)?([a-z]+)
+#   captures:
+#     '1': {scope: entity.name.function.abl}
+#     '2': {scope: storage.modifier.abl}
+#     '3': {scope: storage.modifier.abl}
+#     '4': {scope: entity.name.hidden.abl}
+
+# - comment: function
+#   scope: meta.function.source.abl
+#   - match: (?i)(function)\s+([a-z0-9_-]+)\s+(returns)\s+(character|datetime-tz|datetime|date|decimal|integer|int64|logical|longchar|memptr)(\s+)?(\(|\n)
+#   captures:
+#     '1': {scope: keyword.control.source.abl}
+#     '2': {scope: entity.name.function.abl}
+#     '3': {scope: keyword.other.source.abl}
+#     '4': {scope: storage.type.datatype.abl}
+
+# - comment: main block
+#   scope: meta.function.source.abl
+#   - match: '(?i)(main(\-)?block):'
+#   captures:
+#     '1': {scope: entity.name.function.abl}
+
+
+# - comment: procedure
+#   scope: meta.function.source.abl
+#   - match: (?i)(procedure)\s+([a-z0-9\/_-]+)(:|\(|\n)
+#   captures:
+#     '1': {scope: keyword.control.source.abl}
+#     '2': {scope: entity.name.function.abl}
+
+# - scope: support.type.exception.testing
+#   - match: 'exception:'
+
+
+# - scope: keyword.testing
+#   - match: 'keyword:'
+
+# - comment: Accumulate keywords
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(accumulate|accum|averate|count|maximum|minimum|total|sub-average|sub-count|sub-maximum|sub-minimum|sub-total|lable|by)\b
+
+
+# - comment: ends keywords.
+#   - match: (?i)(end)(\s+(case|class|constructor|destructor|finally|function|interface|method|procedure))?\.
+#   captures:
+#     '1': {scope: keyword.control.end.source.abl}
+#     '2': {scope: keyword.control.end.source.abl}
+
+# - comment: Find & For keywords
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(can-find(\((first|last|prev))?|find\s+(first|last|prev)?|for\s+(each|first|last)|by|descending|exclusive-lock|exclusive|no-lock|no-wait|of|share-lock|transaction|use-index|using|where|while)\b
+
+# - comment: format & frame keywords
+#   scope: keyword.other.frames.source.abl
+#   - match: (?i)\b(as|attr-space|auto-return|bgcolor|blank|cancel-button|centered|colon|column-label|columns|column|context-help|context-help-file|dcolor|deblank|default-buttone|disable-auto-zap|down|fgcolor|font|format|frame|help|keep-tab-order|label|no-attr-space|no-box|no-help|no-hide|no-labels|no-tab-stop|no-underline|no-validate|overlay|page-bottom|page-top|pfcolor|retain|row|screen-id|stream-io|scrollable|scroll|side-labels|skip|stream|three-d|top-only|to|use-dect-exps|use-text|v6frame|validate|view-as
+#     dialog-box|width|with)\b
+
+# - comment: message keywords
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(message|auto-return|buttons|color|in window|set|skip|title|update|view-as
+#     alert-box)\b
+
+# - comment: on block keywords
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(on|endkey|error|quit|stop|anywhere|leave|next|no-apply|override|persistent
+#     run|retry|return|revert|undo)\b
+
+# - comment: output keywords
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(output|append|binary|close|collate|convert|echo|keep-messages|landscape|map|no-convert|no-echo|no-map|num-copies|paged|page-size|portrait|printer|stream|terminal|through|to|unbuffered|value)\b
+
+# - comment: put keywords
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(put|attr-space|color|column|control|cursor|format|no-attr-space|off|row|skip|screen|stream|unformatted)\b
+
+# - comment: class keywords.
+#   scope: keyword.other.class.source.abl
+#   - match: (?i)\b(super)\b
+
+# - comment: control keywords.
+#   scope: keyword.control.source.abl
+#   - match: (?i)\b(repeat|return|then|transaction:?|when)\b
+
+# - comment: general keywords.
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i)\b(object|output\s+(close|thru|through|to)|put(\sunformatted)?|replace|routine-level|substitute|substring|throw|triggers
+#     for load of|trim|undo|update|valid-handle|valid-object)\b
+
+# - comment: query keywords.
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i)\b(query|table|temp-table)\b
+
+# - comment: buffer attributes
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i):(adm-data|available|can-create|can-delete|can-read|can-write|current-changed|dbname|handle|locked|name|new|next-sibling|num-fields|primary|private-data|recid|record-length|rowid|table|table-handle|table-number|type|unique-id)\b
+
+# - comment: buffer methods
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i):(buffer-compare|buffer-copy|buffer-create|buffer-delete|buffer-field|buffer-release|empty-temp-table|find-by-rowid|index-information|raw-transfer)\b
+
+# - comment: buffer field attributes
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i):(adm-data|buffer-handle|buffer-name|buffer-value|can-read|can-write|case-sensitive|column-label|data-type|dbname|extent|format|handle|mandatory|name|position|private-data|read-only|string-value|table|type|unique-id|validate-expression|validate-message|width-chars)\b
+
+# - comment: error and error-statu attributes & methods
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i)(error-status|error|no-error|num-message|type|get-message|get-number)|(:(apperror|syserror|getMessage|numMessages|returnValue))\b
+
+# - comment: query attributes
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i):(adm-data|cache|current-result-row|handle|index-information|is-open|name|num-buffers|num-results|prepare-string|private-data|query-off-end|skip-deleted-record|type)\b
+
+# - comment: query methods
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i):(add-buffer|create-result-list-entry|delete-result-list-entry|get-buffer-handle|get-current|get-first|get-last|get-next|get-prev|set-buffers|query-close|query-open|query-prepare|reposition-backward|reposition-forward|reposition-to-row|reposition-to-rowid)\b
+
+# - comment: temp-table attributes & methods
+#   scope: keyword.other.statement.source.abl
+#   - match: (?i):(default-buffer-handle|name|prepared|primary|undo|add-fields-from|add-index-field|add-like-field|add-like-index|add-new-field|add-new-index|clear|create-like|temp-table-prepare)\b
+
+
+# - scope: storage.testing
+#   - match: 'storage:'
+
+# - comment: buffer
+#   - match: (?i)(define\s+buffer)\s+(b|bf)([A-Z][a-zA-Z0-9-]+)\s+(for)\s+([a-zA-Z0-9-]+)
+#   captures:
+#     '1': {scope: keyword.other.source.abl}
+#     '2': {scope: variable.property.abl}
+#     '3': {scope: variable.property.abl}
+#     '4': {scope: constant.other.source.abl}
+#     '5': {scope: text.other.source.abl}
+#     '6': {scope: text.other.source.abl}
+
+# - comment: parameters - for functions and methods
+#   - match: (?i)(input)\s+(i|ip)([A-Z][a-zA-Z0-9]+)\s+(as\s+(character|datetime-tz|datetime|date|decimal|integer|int64|logical|longchar|memptr)|(like)\s+([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+))
+#   captures:
+#     '1': {scope: keyword.other.source.abl}
+#     '2': {scope: variable.other.synergy.abl}
+#     '3': {scope: variable.other.synergy.abl}
+#     '4': {scope: constant.other.source.abl}
+#     '5': {scope: storage.type.source.abl}
+#     '6': {scope: constant.other.source.abl}
+#     '7': {scope: text.other.source.abl}
+
+# - comment: parameters - for procedures
+#   - match: (?i)(define)\s+(input|input-output|output)\s+(parameter)\s+((i|ip|io|o|op)[A-Z][a-zA-Z0-9]+)\s+(as\s+(character|datetime-tz|datetime|date|decimal|integer|int64|logical|longchar|memptr)|(like)\s+([a-zA-Z0-9-\.]+))(\s+no-undo)?\.
+#   captures:
+#     '1': {scope: keyword.other.source.abl}
+#     '2': {scope: keyword.other.source.abl}
+#     '3': {scope: keyword.other.source.abl}
+#     '4': {scope: variable.property.abl}
+#     '5': {scope: variable.property.abl}
+#     '6': {scope: constant.other.source.abl}
+#     '7': {scope: storage.type.source.abl}
+#     '8': {scope: consant.other.source.abl}
+#     '9': {scope: text.other.source.abl}
+#     '10': {scope: keyword.other.source.abl}
+
+# - comment: property
+#   begin: (?i)(define\s+property)
+#   beginCaptures:
+#     '1': {scope: keyword.other.source.abl}
+#   end: (set)\.
+#   endCaptures:
+#     '1': {scope: keyword.other.source.abl}
+#   patterns:
+#   - scope: keyword.other.source.abl
+#     - match: (get)
+#   - include: '#dataTypes'
+#   - include: '#defineKeywords'
+#   - include: '#fileField'
+#   - include: '#keywordAsLike'
+#   - include: '#objectStatus'
+#   - include: '#variableNames'
+
+# - comment: query
+#   - match: (?i)(define\s+query)\s+((q|qy)[A-Z][a-zA-Z0-9-]+)\s+(for)\s+([a-zA-Z0-9-]+)
+#   captures:
+#     '1': {scope: keyword.other.source.abl}
+#     '2': {scope: variable.property.abl}
+#     '3': {scope: variable.property.abl}
+#     '4': {scope: constant.other.source.abl}
+#     '5': {scope: text.other.source.abl}
+
+# - comment: stream
+#   - match: (?i)(define\s+stream)\s+([a-zA-Z0-9]+)\.
+#   captures:
+#     '1': {scope: keyword.other.source.abl}
+#     '2': {scope: variable.property.abl}
+
+# - scope: storage.type.define.abl
+#   - match: (?i)\b(define\s+(new\s+)?(shared\s+)?(temp-table|form))\b
+
+# - scope: storage.type.source.abl
+#   - match: (?i)\b(?<!&)((?<!-)handle|dataset-handle|dataset|field|(?<!-)index|frame
+#     [a-z]+)(?!\s*\()\b
+
+
+
+
+
+# - scope: variable.testing
+#   - match: 'variable:'
+
+# - comment: paramaters - Synergy naming conventions
+#   scope: variable.other.synergy.source.abl
+#   - match: \b(i|ip|o|op|io)(-|[A-Z])[a-zA-Z0-9_-]+\b
+
+# - include: '#variableNames'
+
+# - scope: support.function.abl
+#   - match: (?i)\b(run) ([a-z][a-z0-9_-]*?)\b(\s*\(.*?\))?
+#   captures:
+#     '1': {scope: keyword.statement.source.abl}
+#     '2': {scope: support.function.source.abl}
+
+# repository:
+
+#
+#   dataTypes:
+#     comment: data types - ABL specific
+#     scope: storage.type.source.abl
+#     - match: \b(blob|character|clob|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar|memptr)\b
+
+#   defineKeywords:
+#     comment: define statment keywords (others)
+#     scope: keyword.other.source.abl
+#     - match: \b(format|initial|no-undo)\b
+
+#   fileField:
+#     comment: file.field referencesc
+#     scope: text.other.source.abl
+#     - match: \b([a-zA-Z0-9-]+\.[a-zA-Z0-9_-]+)\b
+
+#   objectStatus:
+#     - match: (?i)(private|protected|public)\s+
+#     captures:
+#       '1': {scope: storage.modifier.source.abl}
+
+
+
