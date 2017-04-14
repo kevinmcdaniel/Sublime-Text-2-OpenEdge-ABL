@@ -16,13 +16,16 @@
 				<key>caret</key>
 				<string>#889AFF</string>
 				<key>foreground</key>
-				<string>#BDAE9D</string>
+				<string>#cab8a5</string>
+				<!-- <string>#BDAE9D</string> -->
 				<key>invisibles</key>
 				<string>#BFBFBF</string>
 				<key>lineHighlight</key>
-				<string>#3A312C</string>
+				<string>#5b5346</string>
+				<!-- <string>#3A312C</string> -->
 				<key>selection</key>
-				<string>#C3DCFF</string>
+				<string>#737373</string>
+				<!-- <string>#C3DCFF</string> -->
 			</dict>
 		</dict>
 		<dict>
@@ -35,7 +38,8 @@
 				<key>fontStyle</key>
 				<string>italic</string>
 				<key>foreground</key>
-				<string>#0066FF</string>
+				<string>#0b69f7</string>
+				<!-- <string>#0066FF</string> -->
 			</dict>
 		</dict>
 		<dict>
@@ -87,7 +91,8 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#585CF6</string>
+				<string>#6165F7</string>
+				<!-- <string>#585CF6</string> -->
 			</dict>
 		</dict>
 		<dict>
@@ -100,7 +105,8 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#318495</string>
+				<string>#2d92a6</string>
+				<!-- <string>#318495</string> -->
 			</dict>
 		</dict>
 		<dict>
@@ -113,7 +119,8 @@
 				<key>fontStyle</key>
 				<string></string>
 				<key>foreground</key>
-				<string>#049B0A</string>
+				<string>#15ac1b</string>
+				<!-- <string>#049B0A</string> -->
 			</dict>
 		</dict>
 		<dict>
@@ -152,7 +159,8 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#9AFF87</string>
+				<!-- <string>#9AFF87</string> -->
+				<string>#84DE73</string>
 			</dict>
 		</dict>
 		<dict>
@@ -335,7 +343,36 @@
 				<key>fontStyle</key>
 				<string>bold</string>
 				<key>foreground</key>
-				<string>#e0e0e0</string>
+				<string>#d1d1d1</string>
+				<!-- <string>#e0e0e0</string> -->
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Embedded source custom</string>
+			<key>scope</key>
+			<string>text.custom</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>bold</string>
+				<key>foreground</key>
+				<string>#dfd197</string>
+				<!-- <string>#e0e0e0</string> -->
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Embedded source quote characters</string>
+			<key>scope</key>
+			<string>text.quotes</string>
+			<key>settings</key>
+			<dict>
+				<key>fontStyle</key>
+				<string>bold</string>
+				<key>foreground</key>
+				<string>#45DE4A</string>
+				<!-- <string>#e0e0e0</string> -->
 			</dict>
 		</dict>
 		<dict>

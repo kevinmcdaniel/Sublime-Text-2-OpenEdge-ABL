@@ -62,3 +62,20 @@ mainblock:
       return string(hRealQuery:get-buffer-handle(1):buffer-field('roleId'):buffer-value + 1).
     end.
   end method. /* getNextKeyValue */
+
+procedure my/testing:
+  find warehouse where
+       warehouse.whs-code = invr-tfr.depart-whs
+       no-lock.
+  if warehouse.tech-whs = no
+  then
+    return.
+  /* check to see if already on manifest */
+  if can-find(man-detail where
+              man-detail.ar-entity = invr-tfr.in-entity and
+              man-detail.type      = "T"                and
+              man-detail.reference = string(invr-tfr.reference))
+  then
+    return.
+end procedure. /* my/testing */
+

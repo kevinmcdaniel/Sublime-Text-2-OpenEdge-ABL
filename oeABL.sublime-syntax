@@ -5,6 +5,7 @@ file_extensions: [p, i, cls, y]
 scope: source.abl
 
 variables:
+  classNames: '((com|dao|val)\.([a-z]+\.[a-z]+))'
   dataTypes: '(blob|character|clob|datetime-tz|datetime|date|decimal|handle|integer|int64|logical|longchar|memptr|Progress.Lang.Object|void)'
   modifier:  '(override|private|protected|public)'
   accessmode: '(?i)\b(private|protected|public|static)\b'
@@ -12,14 +13,14 @@ variables:
   ident: '[A-Za-z_][A-Za-z_0-9]*'
 
 contexts:
-  main:
-    - include: code
+  main:   # note - the order does matter.  define first, code last.
     - include: defines
     - include: mainblock
+    - include: doblock
+    - include: classes
     - include: constructor
     - include: methods
-    - include: classes
-
+    - include: code
 
   classes:
     - match: \b(class)\b
@@ -54,6 +55,7 @@ contexts:
     - include: namesFileField
     - include: strings
     - include: namesVariables
+    - include: procedures
 
   codeIncludes:          # code includes
     - match: '{&'           # preprocessor
@@ -93,7 +95,7 @@ contexts:
     - match: (?i)\s(=|eq|<|lt|>|gt|<=|le|>=|ge|<>)\s
       scope: constant.character.source.abl
     # simple constants
-    - match: (?i)\b(and|false|(?<!-)no(?!-)|not|of|on|or|to|true|yes)\b
+    - match: (?i)\b(and|false|in|(?<!-)no(?!-)|not|now|of|on|or|to|today|true|yes)\b
       scope: constant.language.source.abl
     # math operators
     - match: (\+|\-|\*|/)
@@ -105,11 +107,18 @@ contexts:
     #   scope: punctuation.string.testing
 
   constructor:
-    - match: '(constructor|destructor)\s+{{modifier}}*\s*([a-z][a-zA-Z]+)(\(\):)'
+    - match: '(constructor)\s+{{modifier}}*\s*([a-z][a-zA-Z]+)(\(\):)'
       captures:
         1: keyword.control.import.source.abl
         2: entity.name.function.abl
         3: text.other.source.abl
+      push: constructorDefine
+    - match: '(destructor)\s({{modifier}}*\s*)?([a-z][a-zA-Z]+)(\(\):)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: keyword.control.import.source.abl
+        3: entity.name.function.abl
+        4: text.other.source.abl
       push: constructorDefine
     - match: '(constructor|destructor)\s+{{modifier}}\s+([a-z][a-zA-Z]+)(\n)'
       captures:
@@ -118,6 +127,7 @@ contexts:
         3: entity.name.function.abl
       push: constructorParameters
   constructorDefine:
+    - include: doblock
     - include: code
     - match: '(end )(constructor|destructor)(\.)'
       captures:
@@ -141,6 +151,9 @@ contexts:
       scope: keyword.other.source.abl
     - match: '{{accessmode}}'
       scope: keyword.other.source.abl
+    - match: \bbuffer\b
+      scope: storage.modifier.source.abl
+      push: defineBuffer
     - match: \bproperty\b
       scope: storage.modifier.source.abl
       push: defineProperty
@@ -150,13 +163,18 @@ contexts:
   defineAll:
     - match: \b(format|initial|init|no-undo)\b
       scope: keyword.other.source.abl
-    - match: \b(as|like)\b
+    - match: \b(as|for|like)\b
       scope: constant.other.source.abl
     - include: namesClasses
     - include: namesFileField
     - include: namesTypes
     - include: namesVariables
     - include: strings
+  defineBuffer:
+    - include: defineAll
+    - match: \.$
+      scope: text.other.source.abl
+      pop: true
   defineProperty:
     - include: defineAll
     - match: '{{accessmode}}'
@@ -182,34 +200,48 @@ contexts:
       pop: true
   defineVariable:
     - include: defineAll
-    - match: \.$
+    - match: \.($|\s)
       scope: text.other.source.abl
       pop: true
-      # set: main
+
+  doblock:
+    - match: \b(do|for|repeat)\b
+      scope: keyword.control.import.source.abl
+      push: doblockend
+  doblockend:
+    - include: doblock
+    - include: code
+    - match: \b(end)(\.)
+      captures:
+        1: keyword.control.import.source.abl
+        2: text.other.source.abl
+      pop: true
 
   functionWords:       # common component methods
-    - match: (addToList|addToQuery|fetchField|fetchRecord|getInit|initBegin|initBuild|initClass|initEnd|setInit|setMember|updateRecord)
-      scope: text.other.source.abl
+    - match: \b(addToList|addToQuery|fetchField|fetchRecord|getInit|initBegin|initBuild|initClass|initEnd|queueMessage|setInit|setMember|updateRecord)\b
+      scope: text.custom.source.abl
 
   keywords:             # OpenEdge keywords
     # conditional keywords
-    - match: \b(do|if|then|else|repeat|return)\b
-      # scope: keyword.source.abl
+    - match: \b(if|then|else|return)\b
       scope: keyword.control.import.source.abl
     - match: \b(case|end case|otherwise|when)\b
-      # scope: keyword.source.abl
       scope: keyword.control.import.source.abl
     # Other keywords - A - B
-    - match: (?i)\b(absolute|add-interval|alert-box|alias|ambiguous|apply|asc|assign|at|available|begins|bell|browse|buffer)\b
+    - match: (?i)\b(absolute|add-interval|add-new-field|alert-box|alias|ambiguous|any-printable|apply|asc|assign|at|available)\b
+      scope: keyword.other.class.source.abl
+    - match: (?i)\b(begins|bell|browse|buffer|buffer-field)\b
       scope: keyword.other.class.source.abl
     # Other keywords - C
-    - match: (?i)\b(call|can-do|can-query|can-set|caps|cast|catch|choose|chr|clear|close|codepage-convert|color|combo-box|compare|compile|save|connect|connected|count-of|create|current-changed|current-language|current-result-row|current-value)\b
+    - match: (?i)\b(call|can-do|can-find|can-query|can-set|caps|cast|catch|choose|chr|clear|close|codepage-convert|color|combo-box|compare|compile|connect|connected|count-of|create|current|current-changed|current-language|current-result-row|current-value)\b
       scope: keyword.other.class.source.abl
     # Other keywords - D
     - match: (?i)\b(dataservers|datetime-tz|datetime|date|daydbcodepage|dbcollation|dbname|dbparam|dbrestrictions|dbtaskid|dbtype|dbversion|decimal|delete|delimiter|dictionary|disable|disconnect|display|down|dynamic-function|dynamic-new)\b
       scope: keyword.other.class.source.abl
     # Other keywords - E - F
-    - match: (?i)\b(editing|editor|empty temp-table|enable|encode|entered|entry|error|etime|exp|export|extent|fill|finally|final|first-of|first|form)\b
+    - match: (?i)\b(each|editing|editor|empty temp-table|enable|encode|entered|entry|error|etime|exclusive-lock|exp|export|extent)\b
+      scope: keyword.other.class.source.abl
+    - match: \b(fill|finally|final|find|first-of|first|for|form|frame)\b
       scope: keyword.other.class.source.abl
     # Other keywords - G
     - match: (?i)\b(gateways|get|get-bits|get-byte|get-byte-order|get-bytes|get-codepages|get-collations|get-double|get-float|get-key-value|get-long|get-pointer-value|get-short|get-size|get-string|get-unsigned-short|go-pending)\b
@@ -221,21 +253,23 @@ contexts:
     - match: (?i)\b(kblabel|keycode|keyfunction|keylable|keyword|keyword-all|last|lastkey|last-of|lc|ldbname|leave|left-trim|length|library|lin-counter|list-(events|query-attrs|set-attrs|widgets)|load|load-picture|locked|log|lookup|lower)\b
       scope: keyword.other.class.source.abl
     # Other keywords - M - N
-    - match: (?i)\b(matches|maximum|max|md5-digest|member|message|message-lines|minimum|modulo|month|new|next|next-prompt|next-value|num-aliases|num-dbs|num-entries|num-results)\b
+    - match: (?i)\b(matches|maximum|max|md5-digest|member|message|message-lines|minimum|modulo|month|)\b
+      scope: keyword.other.class.source.abl
+    - match: (?i)\b(new|next|next-prompt|next-value|no-apply|no-error|no-lock|no-wait|num-aliases|num-dbs|num-entries|num-results)\b
       scope: keyword.other.class.source.abl
     # Other keywords - O
-    - match: (?i)\b(open query|opsys|os-(append|command|copy|create-dir|delete|drives|error|getenv|rename)|object|overlay)\b
+    - match: (?i)\b(open query|opsys|os-(append|command|copy|create-dir|delete|drives|error|getenv|rename)|object|output|overlay)\b
       scope: keyword.other.class.source.abl
     # Other keywords - P
-    - match: (?i)\b(page|page-number|page-size|pause|pdbname|preselect|proc-handle|proc-status|process
-             events|program-name|projpt-for|promsgs|propath|proversion|publsih|put cursor|put
+    - match: (?i)\b(page|page-number|page-size|pause|pdbname|preselect|private-data|proc-handle|proc-status|process
+             events|program-name|projpt-for|promsgs|propath|proversion|publish|put cursor|put
              screen|put-(bits|bytes|byte|double|float|key-value|long|short|string|unsigned-short))\b
       scope: keyword.other.class.source.abl
     # Other keywords - R & S & T
-    - match: \b(routine-level|string|super|transaction|throw)\b
+    - match: \b(repeat|routine-level|run|save|screen-value|self|sensitive|string|super|transaction|throw)\b
       scope: keyword.other.class.source.abl
     # Other keywords - U & v
-    - match: (?i)\b(undo|upper|use-widget-pool|using|valid-object|view-as)\b
+    - match: (?i)\b(undo|upper|userid|use-widget-pool|using|valid-handle|valid-object|value-changed|view-as|visible|where|widget)\b
       scope: keyword.other.class.source.abl
 
   mainblock:
@@ -243,20 +277,22 @@ contexts:
       scope: entity.name.function.abl
 
   methods:
-    - match: '(method\s+){{modifier}}\s+{{dataTypes}}\s+([a-z][a-zA-Z]+)(\(\):)'
+    - match: '(method\s+){{modifier}}\s+(final\s+)?{{dataTypes}}\s+([a-z][a-zA-Z]+)(\s*\(\):)'
       captures:
         1: keyword.control.import.source.abl
         2: keyword.control.source.abl
-        3: storage.modifier.abl
-        4: entity.name.function.abl
-        5: text.other.source.abl
+        3: keyword.control.source.abl
+        4: storage.modifier.abl
+        5: entity.name.function.abl
+        6: text.other.source.abl
       push: methodsDefine
-    - match: '(method\s+){{modifier}}\s+{{dataTypes}}\s+([a-z][a-zA-Z]+)(\n)'
+    - match: '(method\s+){{modifier}}\s+(final\s+)?{{dataTypes}}\s+([a-z][a-zA-Z]+)'
       captures:
         1: keyword.control.import.source.abl
         2: keyword.control.source.abl
-        3: storage.modifier.abl
-        4: entity.name.function.abl
+        3: keyword.control.source.abl
+        4: storage.modifier.abl
+        5: entity.name.function.abl
       push: methodsParameters
   methodsDefine:
     - include: defines
@@ -270,20 +306,14 @@ contexts:
     - match: '\('
       scope: text.other.source.abl
     - include: defineAll
+    - include: doblock
     - include: code
     - match: '\):'
       scope: text.other.source.abl
       set: methodsDefine
 
-# to be soreted still
- # methodDefine:
- #    - match: "\\)\\:"
- #      scope: text.other.source.abl
- #      pop: true
-
-
   namesClasses:
-    - match: \b(com|dao|val)\.([a-z]+\.[a-z]+)\b
+    - match: \b{{classNames}}\b
       scope: text.other.source.abl
   namesFileField:
     - match: \b([a-zA-Z0-9\-_]+\.[a-zA-Z\-_]+)\b
@@ -292,25 +322,38 @@ contexts:
     - match: \b{{dataTypes}}\b
       scope: storage.type.source.abl
   namesVariables:  # variable & properties - Synergy naming conventions
-    - match: \b(h|i|lv|o|p|sv|v)(-|[A-Z])[a-zA-Z0-9_-]+\b
+    - match: \b(b|h|i|o|p|tt|v)(-|[A-Z])[a-zA-Z0-9_-]+\b
       scope: variable.other.synergy.source.abl
+    - match: \b(bf|br|fr|hl|lv|sv)(-|[A-Z])[a-zA-Z0-9_-]+\b  # legacy varible names
+      scope: variable.other.synergy.source.abl
+
+  procedures:
+    - match: '(procedure)\s([a-zA-Z/]+)(:)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: entity.name.function.abl
+        3: text.other.source.abl
+    - match: '(end procedure)(\.)'
+      captures:
+        1: keyword.control.import.source.abl
+        2: text.other.source.abl
 
   strings:            # quoted strings
     - match: '"'
-      scope: text.other.source.abl
+      scope: text.quotes.source.abl
       push: stringDoubleQuote
     - match: "'"
-      scope: text.other.source.abl
+      scope: text.quotes.source.abl
       push: stringSingleQuote
   stringDoubleQuote:
     - meta_content_scope: string.double.source.abl
     - match: '"'
-      scope: text.other.source.abl
+      scope: text.quotes.source.abl
       pop: true
   stringSingleQuote:
     - meta_content_scope: string.single.source.abl
     - match: "'"
-      scope: text.other.source.abl
+      scope: text.quotes.source.abl
       pop: true
 
 
